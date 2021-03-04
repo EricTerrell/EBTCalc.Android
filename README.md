@@ -22,7 +22,7 @@ EBTCalc for Android &#169; Copyright 2020, [`Eric Bergman-Terrell`](https://www.
 
 # Desktop Version
 
-A version of [`EBTCalc`](https://github.com/EricTerrell/EBTCalc) for Windows, Linux, and Mac OSC is also available.
+A version of [`EBTCalc`](https://github.com/EricTerrell/EBTCalc) for Windows and Linux is also available.
 
 # How to Build
 
