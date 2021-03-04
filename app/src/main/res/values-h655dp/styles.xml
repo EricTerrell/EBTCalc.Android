@@ -1,0 +1,17 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="CalcButton">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+	</style>
+
+    <style name="SpinnerText">
+        <item name="android:textSize">12pt</item>
+    </style>
+
+    <style name="LeftProgrammableKeyboard">
+        <item name="android:visibility">visible</item>
+	</style>
+</resources>

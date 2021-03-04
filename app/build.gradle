@@ -1,0 +1,37 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        applicationId "com.ericbt.rpncalc"
+        minSdkVersion 15
+        targetSdkVersion 28
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "flavors"
+
+    productFlavors {
+        free {
+            applicationId "com.ericbt.rpncalcfree"
+            dimension "flavors"
+        }
+        paid {
+            applicationId "com.ericbt.rpncalcpaid"
+            dimension "flavors"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation files('libs/js.jar')
+
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+}

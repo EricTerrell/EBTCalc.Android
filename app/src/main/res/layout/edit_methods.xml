@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/FixIssues"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fix_syntax_errors_and_warnings"
+            style="@style/FixIssues"
+            >
+        </Button>
+        
+        <Spinner
+            android:id="@+id/SelectClass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </Spinner>
+
+        <TextView
+            android:id="@+id/ClassMethodSeparator"
+            style="@style/SpinnerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/class_method_separator" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/SelectMethod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </Spinner>
+	</LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+	    <com.ericbt.rpncalc.SourceCodeEditText
+	        android:id="@+id/SourceCode"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:fillViewport="true"
+	        android:inputType="textMultiLine|textNoSuggestions"
+	        android:singleLine="false"
+	        android:typeface="monospace" 
+	        >
+	    </com.ericbt.rpncalc.SourceCodeEditText>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:id="@+id/Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_button_text" >
+        </Button>
+
+        <Button
+            android:id="@+id/UpDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/updown_button_text"
+            >
+        </Button>
+        
+        <Button
+            android:id="@+id/Advanced"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/advanced_button_text"
+            android:ellipsize="end" 
+            android:singleLine="true"
+            >
+        </Button>
+
+        <Button
+            android:id="@+id/Save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save_button_text"
+            android:enabled="false" >
+        </Button>
+
+	</LinearLayout>
+
+</LinearLayout>

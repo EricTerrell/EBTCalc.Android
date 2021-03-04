@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+	android:background="@drawable/layout_border"
+	android:padding="2dp"
+>
+	<LinearLayout
+	    android:id="@+id/TopLineLayout"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="right"
+	>
+		<TextView 
+		    android:id="@+id/TopLine"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+	        style="@style/NumberText"
+		>
+		</TextView>
+	</LinearLayout>
+	<View
+		android:id="@+id/Divider" 
+		android:layout_width="fill_parent" 
+		android:layout_height="2dp" 
+		android:background="@color/blue">
+	</View>
+	<ListView 
+	    android:id="@+id/Stack"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:scrollbars="vertical"
+	>
+	</ListView>
+</LinearLayout>

@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/UpdateBuiltIns"
+        android:title="@string/update_builtins_button_text">
+    </item>
+    
+    <item
+        android:id="@+id/Export"
+        android:title="@string/export_button_text"
+    >
+    </item>
+
+    <item
+        android:id="@+id/Import"
+        android:title="@string/import_button_text"
+    >
+    </item>
+
+</menu>

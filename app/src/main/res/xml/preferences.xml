@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Sound" >
+        <ListPreference 
+            android:title="Key Click Volume" 
+            android:defaultValue='0' 
+            android:key="keyclick_volume"
+            android:entries="@array/keyclick_volume_strings"
+            android:entryValues="@array/keyclick_volume_values"
+        />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Display" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="thousands_separator"
+            android:title="Use Thousands Separator" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="force_1_column_in_portrait"
+            android:title="Force 1-Column Portrait Display" />
+        </PreferenceCategory>
+    <PreferenceCategory android:title="Javascript Execution" >
+        <ListPreference 
+            android:title="Method Timeout" 
+            android:defaultValue='15' 
+            android:key="method_timeout"
+            android:entries="@array/method_timeout_strings"
+            android:entryValues="@array/method_timeout_values"
+        />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Import/Export Folder" >
+        <EditTextPreference 
+            android:title="Folder to import/export Javascript code" 
+            android:defaultValue='' 
+            android:key="import_export_folder"
+        />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Logging" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="IsUncaughtExceptionLoggingEnabled"
+            android:summary="Check this checkbox to log uncaught exceptions to a file."
+            android:title="Enable Logging" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+
+</PreferenceScreen>

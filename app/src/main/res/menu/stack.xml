@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/DisplayStackContentsMenuItem"
+        android:title="Display Stack Contents"
+    >
+    </item>
+    
+    <item
+        android:id="@+id/CopyStackItemMenuItem"
+        android:title="Copy Selected Item"
+    >
+    </item>
+
+    <item
+        android:id="@+id/CopyStackContentsMenuItem"
+        android:title="Copy Entire Stack"
+    >
+    </item>
+
+</menu>

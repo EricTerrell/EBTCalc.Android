@@ -1,0 +1,33 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="CalcButton">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+	</style>
+
+    <style name="SpinnerText">
+        <item name="android:textSize">12pt</item>
+    </style>
+
+    <style name="NumberText">
+      	<item name="android:textSize">10pt</item>
+      	<item name="android:textStyle">bold</item>
+      	<item name="android:singleLine">true</item>
+      	<item name="android:typeface">monospace</item>
+      	<item name="android:layout_gravity">right</item>
+      	<item name="android:ellipsize">end</item>
+		<item name="android:layout_marginLeft">3dp</item>
+		<item name="android:layout_marginRight">3dp</item>
+    </style>
+    <style name="StackContentsText">
+      	<item name="android:textSize">10pt</item>
+      	<item name="android:textStyle">bold</item>
+      	<item name="android:singleLine">false</item>
+      	<item name="android:typeface">monospace</item>
+      	<item name="android:layout_gravity">right</item>
+      	<item name="android:ellipsize">none</item>
+    </style>
+
+</resources>

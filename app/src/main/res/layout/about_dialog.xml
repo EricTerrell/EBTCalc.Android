@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scrollbars="vertical"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
+    >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/Version"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="(C) Copyright 2020, Eric Bergman-Terrell"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:text="www.EricBT.com" >
+        </TextView>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:autoLink="web"
+            android:text="EBTCalc uses the Rhino Javascript Engine: https://developer.mozilla.org/en-US/docs/Rhino"
+            android:textColor="?android:attr/textColorPrimary" >
+        </TextView>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:autoLink="web"
+            android:text="App icon by Everaldo Coelho: https://en.wikipedia.org/wiki/Everaldo_Coelho"
+            android:textColor="?android:attr/textColorPrimary" >
+        </TextView>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:autoLink="web"
+            android:text="A desktop version of EBTCalc is available: https://ericbt.com/ebtcalc_electron"
+            android:textColor="?android:attr/textColorPrimary" >
+        </TextView>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:autoLink="email"
+            android:text="Feedback: EBTCalc@EricBT.com"
+            android:textColor="?android:attr/textColorPrimary" >
+        </TextView>
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TableRow>
+
+                <Button
+                    android:id="@+id/ReadLicenseTerms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Read License Terms" >
+                </Button>
+
+                <Button
+                    android:id="@+id/Upgrade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Upgrade" >
+                </Button>
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+</ScrollView>

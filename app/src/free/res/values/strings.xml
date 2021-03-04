@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="app_name">EBTCalc (Free)</string>
+    <string name="app_version">free</string>
+    <string name="paid_version_url">market://details?id=com.ericbt.rpncalcpaid</string>
+    
+</resources>

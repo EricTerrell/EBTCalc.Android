@@ -1,0 +1,33 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/EditMenuItem"
+        android:title="Edit"
+        android:showAsAction="ifRoom|withText"
+        android:enabled="false"
+    >
+    </item>
+    <item
+        android:id="@+id/SettingsMenuItem"
+        android:title="Settings"
+        android:showAsAction="ifRoom|withText"
+    >
+    </item>
+    <item
+        android:id="@+id/HelpMenuItem"
+        android:title="Help"
+        android:showAsAction="ifRoom|withText"
+        >
+    </item>
+    <item
+        android:id="@+id/AboutEBTDesktopMenuItem"
+        android:title="EBTCalc (Desktop)"
+        android:showAsAction="ifRoom|withText"
+        >
+    </item>
+    <item
+        android:id="@+id/AboutMenuItem"
+        android:title="About"
+        android:showAsAction="ifRoom|withText"
+    >
+    </item>
+</menu>
