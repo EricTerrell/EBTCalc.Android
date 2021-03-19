@@ -38,7 +38,7 @@ import com.ericbt.rpncalc.StringLiterals;
 import com.ericbt.rpncalc.javascript.SourceCodeParseListener.SourceCodeStatus;
 
 public class SourceCode {
-	private static List<SourceCodeParseListener> sourceCodeChangeListeners = new ArrayList<>();
+	private static final List<SourceCodeParseListener> sourceCodeChangeListeners = new ArrayList<>();
 	
 	public static int getListenerCount() {
 		return sourceCodeChangeListeners.size();

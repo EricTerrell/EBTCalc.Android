@@ -239,7 +239,7 @@ public class ProgrammableKeypadFragment extends Fragment implements SourceCodePa
 		}
 	}
 	
-	private class EnableDisableButtons implements ButtonVisitor {
+	private static class EnableDisableButtons implements ButtonVisitor {
 		public void Visit(Stack<ResultWrapper> stackData, CharSequence text, Button button) {
 			if (button.getTag() instanceof MethodMetadata) {
 				Validator validator = new NObjects(((MethodMetadata) button.getTag()).getArguments().size());
@@ -249,7 +249,7 @@ public class ProgrammableKeypadFragment extends Fragment implements SourceCodePa
 		}
 	}
 	
-	private class DisableButtons implements ButtonVisitor {
+	private static class DisableButtons implements ButtonVisitor {
 		public void Visit(Stack<ResultWrapper> stackData, CharSequence text, Button button) {
 			if (button.getTag() instanceof MethodMetadata) {
 				button.setEnabled(false);

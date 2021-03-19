@@ -37,8 +37,8 @@ import com.ericbt.rpncalc.javascript.MethodMetadata;
 import com.ericbt.rpncalc.validators.NObjects;
 
 public class ProgrammableButtonGridAdapter extends BaseAdapter {
-	private Context context;
-	private List<MethodMetadata> allMethods;
+	private final Context context;
+	private final List<MethodMetadata> allMethods;
 	private DisplayFragment displayFragment;
 
 	public void setDisplayFragment(DisplayFragment displayFragment) {

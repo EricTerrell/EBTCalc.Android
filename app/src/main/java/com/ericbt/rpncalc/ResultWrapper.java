@@ -31,7 +31,7 @@ import org.mozilla.javascript.NativeArray;
 
 public class ResultWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private Object result;
+	private final Object result;
 	
 	public Object getResult() {
 		return result;

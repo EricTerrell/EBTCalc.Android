@@ -28,9 +28,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class StackArrayAdapter extends ArrayAdapter<ResultWrapper> {
-	private Context context;
-	private int resource;
-	private int textViewResourceId;
+	private final Context context;
+	private final int resource;
+	private final int textViewResourceId;
 	private boolean enabled = true;
 
 	public StackArrayAdapter(Context context, int resource, int textViewResourceId) {

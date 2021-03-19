@@ -23,37 +23,37 @@ package com.ericbt.rpncalc.javascript;
 public class SyntaxIssue {
 	public enum Severity { Warning, Error }
 	
-	private Severity severity;
+	private final Severity severity;
 	
 	public Severity getSeverity() {
 		return severity;
 	}
 	
-	private String message;
+	private final String message;
 
 	public String getMessage() {
 		return message;
 	}
 
-	private String sourceName;
+	private final String sourceName;
 
 	public String getSourceName() {
 		return sourceName;
 	}
 
-	private int line;
+	private final int line;
 
 	public int getLine() {
 		return line;
 	}
 
-	private String lineSource;
+	private final String lineSource;
 
 	public String getLineSource() {
 		return lineSource;
 	}
 
-	private int lineOffset;
+	private final int lineOffset;
 
 	public int getLineOffset() {
 		return lineOffset;

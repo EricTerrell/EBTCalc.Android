@@ -28,7 +28,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
 public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
-	private boolean force1ColumnValue = Preferences.getForce1ColumnValue();
+	private final boolean force1ColumnValue = Preferences.getForce1ColumnValue();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

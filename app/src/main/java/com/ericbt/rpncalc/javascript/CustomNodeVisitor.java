@@ -35,12 +35,12 @@ import com.ericbt.rpncalc.javascript.MethodMetadata.MethodType;
 
 
 public class CustomNodeVisitor implements NodeVisitor {
-	private List<String> niladicConstructors = new ArrayList<>();
+	private final List<String> niladicConstructors = new ArrayList<>();
 	public List<String> getNiladicConstructors() {
 		return niladicConstructors;
 	}
 
-	private List<String> nonNiladicConstructors = new ArrayList<>();
+	private final List<String> nonNiladicConstructors = new ArrayList<>();
 	
 	public List<String> getNonNiladicConstructors() {
 		return nonNiladicConstructors;
@@ -55,7 +55,7 @@ public class CustomNodeVisitor implements NodeVisitor {
 		return allConstructors;
 	}
 	
-	private List<MethodMetadata> methods = new ArrayList<>();
+	private final List<MethodMetadata> methods = new ArrayList<>();
 	
 	public List<MethodMetadata> getMethods() {
 		return methods;

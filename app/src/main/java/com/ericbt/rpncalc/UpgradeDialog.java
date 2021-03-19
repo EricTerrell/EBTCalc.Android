@@ -29,7 +29,7 @@ import android.util.Log;
 
 public class UpgradeDialog {
 	private AlertDialog alertDialog;
-	private Context context;
+	private final Context context;
 	
 	public UpgradeDialog(Context context) {
 		this.context = context;

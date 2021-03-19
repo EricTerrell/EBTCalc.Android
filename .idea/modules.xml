@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/EBTCalc.iml" filepath="$PROJECT_DIR$/EBTCalc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/EBTCalc.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/EBTCalc.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/EBTCalc.Android.iml" filepath="$PROJECT_DIR$/.idea/modules/EBTCalc.Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/EBTCalc.Android.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/EBTCalc.Android.app.iml" />
     </modules>
   </component>
 </project>

@@ -23,7 +23,7 @@ package com.ericbt.rpncalc.javascript;
 import com.ericbt.rpncalc.DisplayFragment;
 
 public class ExecuteMethodTaskParameters {
-	private MethodMetadata methodMetadata;
+	private final MethodMetadata methodMetadata;
 	
 	private ExecuteMethodTask executeMethodTask;
 
@@ -39,7 +39,7 @@ public class ExecuteMethodTaskParameters {
 		return executeMethodTask;
 	}
 	
-	private DisplayFragment displayFragment;
+	private final DisplayFragment displayFragment;
 	
 	public DisplayFragment getDisplayFragment() {
 		return displayFragment;

@@ -32,9 +32,9 @@ import android.widget.TextView;
 import com.ericbt.rpncalc.R;
 
 public class MethodMetadataArrayAdapter extends ArrayAdapter<MethodMetadata> {
-	private List<MethodMetadata> methodMetadata;
+	private final List<MethodMetadata> methodMetadata;
 	
-	private Context context;
+	private final Context context;
 	
 	public MethodMetadataArrayAdapter(Context context, int resource,
 			int textViewResourceId, List<MethodMetadata> methodMetadata) {

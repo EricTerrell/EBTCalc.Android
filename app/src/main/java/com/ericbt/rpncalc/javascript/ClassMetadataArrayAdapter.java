@@ -32,9 +32,9 @@ import android.widget.TextView;
 import com.ericbt.rpncalc.R;
 
 public class ClassMetadataArrayAdapter extends ArrayAdapter<ClassMetadata> {
-	private List<ClassMetadata> classMetadata;
-	private Context context;
-	private boolean useDisplayClassName;
+	private final List<ClassMetadata> classMetadata;
+	private final Context context;
+	private final boolean useDisplayClassName;
 	
 	public ClassMetadataArrayAdapter(Context context, int resource, int textViewResourceId, List<ClassMetadata> classMetadata, boolean useDisplayClassName) {
 		super(context, resource, textViewResourceId, classMetadata);

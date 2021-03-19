@@ -28,7 +28,7 @@ import android.util.Log;
 
 public class BackgroundTasks {
 	@SuppressWarnings("rawtypes")
-	private static List<AsyncTask> asyncTasks = new ArrayList<>();
+	private static final List<AsyncTask> asyncTasks = new ArrayList<>();
 	
 	public static synchronized void add(@SuppressWarnings("rawtypes") AsyncTask asyncTask) {
 		asyncTasks.add(asyncTask);

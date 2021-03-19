@@ -23,9 +23,9 @@ package com.ericbt.rpncalc.javascript;
 import java.util.List;
 
 public class CategoryClassMetadata {
-	private String categoryName;
+	private final String categoryName;
 	
-	private List<ClassMetadata> classMetadata;
+	private final List<ClassMetadata> classMetadata;
 	
 	public CategoryClassMetadata(String categoryName, List<ClassMetadata> classMetadata) {
 		this.categoryName = categoryName;

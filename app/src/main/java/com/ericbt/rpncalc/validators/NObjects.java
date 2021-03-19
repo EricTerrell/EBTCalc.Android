@@ -26,7 +26,7 @@ import com.ericbt.rpncalc.Preferences;
 import com.ericbt.rpncalc.ResultWrapper;
 
 public class NObjects implements Validator {
-	private int n;
+	private final int n;
 	
 	public NObjects(int n) {
 		this.n = n;

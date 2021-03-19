@@ -24,19 +24,19 @@ import java.util.List;
 
 
 public class ParseSourceCodeTaskResult {
-	private List<ClassMetadata> allClassMetadata;
+	private final List<ClassMetadata> allClassMetadata;
 	
 	public List<ClassMetadata> getAllClassMetadata() {
 		return allClassMetadata;
 	}
 	
-	private List<SyntaxIssue> syntaxErrors;
+	private final List<SyntaxIssue> syntaxErrors;
 
 	public List<SyntaxIssue> getSyntaxErrors() {
 		return syntaxErrors;
 	}
 	
-	private List<SyntaxIssue> syntaxWarnings;
+	private final List<SyntaxIssue> syntaxWarnings;
 
 	public List<SyntaxIssue> getSyntaxWarnings() {
 		return syntaxWarnings;

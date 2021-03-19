@@ -27,7 +27,7 @@ import com.ericbt.rpncalc.Preferences;
 import com.ericbt.rpncalc.ResultWrapper;
 
 public class ProgrammableMethods implements Validator {
-	private MainActivity mainActivity;
+	private final MainActivity mainActivity;
 	
 	public ProgrammableMethods(MainActivity mainActivity) {
 		this.mainActivity = mainActivity;

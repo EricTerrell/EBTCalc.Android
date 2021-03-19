@@ -30,13 +30,13 @@ import com.ericbt.rpncalc.javascript.SyntaxIssue.Severity;
 
 
 public class ParseErrorReporter implements ErrorReporter {
-	private List<SyntaxIssue> syntaxErrors;
+	private final List<SyntaxIssue> syntaxErrors;
 	
 	public List<SyntaxIssue> getSyntaxErrors() {
 		return syntaxErrors;
 	}
 
-	private List<SyntaxIssue> syntaxWarnings;
+	private final List<SyntaxIssue> syntaxWarnings;
 	
 	public List<SyntaxIssue> getSyntaxWarnings() {
 		return syntaxWarnings;

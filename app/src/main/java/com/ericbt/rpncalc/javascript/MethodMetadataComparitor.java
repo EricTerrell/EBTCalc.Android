@@ -26,7 +26,7 @@ import java.util.Comparator;
 import com.ericbt.rpncalc.StringLiterals;
 
 public class MethodMetadataComparitor implements Comparator<MethodMetadata> {
-	private Collator collator = Collator.getInstance();
+	private final Collator collator = Collator.getInstance();
 
 	@Override
 	public int compare(MethodMetadata methodMetadata1, MethodMetadata methodMetadata2) {

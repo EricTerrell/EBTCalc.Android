@@ -30,8 +30,8 @@ import android.widget.TextView;
 import com.ericbt.rpncalc.R;
 
 public class CategoryClassMetadataArrayAdapter extends ArrayAdapter<CategoryClassMetadata> {
-	private CategoryClassMetadata[] categoryClassMetadata;
-	private Context context;
+	private final CategoryClassMetadata[] categoryClassMetadata;
+	private final Context context;
 	
 	public CategoryClassMetadataArrayAdapter(Context context, int resource, int textViewResourceId, CategoryClassMetadata[] categoryClassMetadata) {
 		super(context, resource, textViewResourceId, categoryClassMetadata);

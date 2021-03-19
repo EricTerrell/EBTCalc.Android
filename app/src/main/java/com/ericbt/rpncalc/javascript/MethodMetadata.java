@@ -24,13 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MethodMetadata {
-	private String className;
+	private final String className;
 	
 	public String getClassName() {
 		return className;
 	}
 
-	private String methodName;
+	private final String methodName;
 	
 	public String getMethodName() {
 		return methodName;

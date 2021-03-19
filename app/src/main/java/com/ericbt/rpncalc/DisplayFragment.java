@@ -74,7 +74,7 @@ public class DisplayFragment extends Fragment implements OnSharedPreferenceChang
 	
 	private Stack<ResultWrapper> stackData = new Stack<>();
 	
-	private static List<DisplayChangeListener> displayChangeListeners = new ArrayList<>();
+	private static final List<DisplayChangeListener> displayChangeListeners = new ArrayList<>();
 	
 	public Stack<ResultWrapper> getStackData() {
 		return stackData;

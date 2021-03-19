@@ -60,7 +60,7 @@ public class ExecuteMethodTask extends AsyncTask<ExecuteMethodTaskParameters, Vo
 		ExecuteMethodTask.executing = executing;
 	}
 	
-	private static List<MethodExecutionListener> listeners = new ArrayList<>();
+	private static final List<MethodExecutionListener> listeners = new ArrayList<>();
 
 	public static void listen(MethodExecutionListener listener) {
 		listeners.add(listener);

@@ -24,7 +24,7 @@ import java.text.Collator;
 import java.util.Comparator;
 
 public class ClassMetadataComparitor implements Comparator<ClassMetadata> {
-	private Collator collator = Collator.getInstance();
+	private final Collator collator = Collator.getInstance();
 
 	@Override
 	public int compare(ClassMetadata classMetadata1, ClassMetadata classMetadata2) {

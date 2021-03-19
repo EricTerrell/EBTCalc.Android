@@ -25,13 +25,13 @@ import java.util.List;
 
 
 public class ClassMetadata {
-	private String className;
+	private final String className;
 	
 	public String getClassName() {
 		return this.className;
 	}
 	
-	private String displayClassName;
+	private final String displayClassName;
 	
 	public String getDisplayClassName() {
 		return displayClassName;

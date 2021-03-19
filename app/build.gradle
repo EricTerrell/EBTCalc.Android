@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "com.ericbt.rpncalc"
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 29
     }
     buildTypes {
         release {
@@ -33,5 +33,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation files('libs/js.jar')
 
-    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
 }

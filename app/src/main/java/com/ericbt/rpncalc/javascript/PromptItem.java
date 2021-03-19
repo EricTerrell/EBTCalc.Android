@@ -31,13 +31,13 @@ public class PromptItem {
 		this.value = value;
 	}
 
-	private String labelText;
+	private final String labelText;
 
 	public String getLabelText() {
 		return labelText;
 	}
 	
-	private String itemTypeString;
+	private final String itemTypeString;
 
 	public enum ItemType { None, Value, Select }
 	
@@ -56,13 +56,13 @@ public class PromptItem {
 		return itemType;
 	}
 
-	private String regexOrSpinnerValues;
+	private final String regexOrSpinnerValues;
 
 	public String getRegexOrSpinnerValues() {
 		return regexOrSpinnerValues;
 	}
 	
-	private String defaultValue;
+	private final String defaultValue;
 
 	public String getDefaultValue() {
 		return defaultValue;
