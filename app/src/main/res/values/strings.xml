@@ -5,7 +5,11 @@
 	<string name="main_activity_force_portrait">true</string>
 	<string name="edit_methods_activity_force_portrait">true</string>
 	<string name="run_methods_activity_force_portrait">true</string>
-			
+
+    <string name="permissions">Permissions</string>
+    <string name="permissions_not_granted">Permissions were not granted.\n\nEBTCalc will not function correctly until permissions are granted.\n\nPermissions are necessary to read and write custom button source code.\n\nClick \"Request Permissions\" to grant permissions.</string>
+    <string name="game_over">EBTCalc will not function without permissions. Please un-install EBTCalc.</string>
+
     <string name="app_version"></string>
     <string name="app_store"></string>
     <string name="paid_version_url"></string>

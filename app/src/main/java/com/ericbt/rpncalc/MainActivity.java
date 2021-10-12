@@ -22,10 +22,13 @@ package com.ericbt.rpncalc;
 
 import java.util.Stack;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.net.Uri;
@@ -46,11 +49,15 @@ import com.ericbt.rpncalc.javascript.SourceCode;
 import com.ericbt.rpncalc.javascript.SourceCodeParseListener;
 
 public class MainActivity extends Activity implements MethodExecutionListener, SourceCodeParseListener {
+	private final static int REQUEST_PERMISSIONS_CODE = 1000;
+	private final static int ACCEPT_LICENSE_TERMS     = 1001;
+
 	private Menu optionsMenu;
 	private ProgrammableKeypadFragment programmableKeypadFragment;
 	private DisplayFragment displayFragment;
 	private LinearLayout enclosingView;
 	private boolean created;
+	private int numberOfRejections = 0;
 
 	private static final int ENTER_STRING = 1;
 	private static final int RUN_METHODS = 2;
@@ -100,10 +107,13 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 	        
 	        // Prompt user to accept license terms if they have not been previously accepted.
 	        if (!Preferences.getUserAcceptedTerms()) {
-				Intent licenseTermsIntent = new Intent(this, LicenseTermsActivity.class);
+				final Intent licenseTermsIntent = new Intent(this, LicenseTermsActivity.class);
 				licenseTermsIntent.putExtra(StringLiterals.AllowCancel, false);
-	            startActivity(licenseTermsIntent);     
-	        }
+
+	        	startActivityForResult(licenseTermsIntent, ACCEPT_LICENSE_TERMS);
+	        } else {
+	        	requestPermissions();
+			}
 		}
 
 		created = true;
@@ -128,6 +138,7 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 		}
 	}
 
+
 	@Override
 	public void onAttachFragment(Fragment fragment) {
     	Log.i(StringLiterals.LogTag, "MainActivity.onAttachFragment");
@@ -146,11 +157,91 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 		super.onAttachFragment(fragment);
 	}
 
-	@Override
-	protected void onStart() {
-    	super.onStart();
+	protected boolean havePermissions() {
+		return checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+				PackageManager.PERMISSION_GRANTED;
+	}
 
-		Permissions.requestReadWriteExternalStoragePermission(this);
+	protected void requestPermissions() {
+		Log.i(StringLiterals.LogTag, "requestPermissions");
+
+		if (havePermissions()) {
+			loadSourceCode();
+		} else {
+			final String[] permissions = new String[] {
+					Manifest.permission.WRITE_EXTERNAL_STORAGE
+			};
+
+			requestPermissions(permissions, REQUEST_PERMISSIONS_CODE);
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode,
+										   String[] permissions,
+										   int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+		Log.i(StringLiterals.LogTag, "MainActivity.onRequestPermissionsResult");
+
+		if (requestCode == REQUEST_PERMISSIONS_CODE) {
+			// Checking whether user granted the permission or not.
+			if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+				numberOfRejections++;
+
+				Log.i(StringLiterals.LogTag,
+						String.format("numberOfRejections: %d", numberOfRejections));
+
+				// https://www.androidpolice.com/2020/02/19/android-11-will-block-apps-from-repeatedly-asking-for-permissions/
+				if (numberOfRejections < 2) {
+					displayPermissionsDeniedMessage();
+				} else {
+					displayGameOverMessage();
+				}
+			} else {
+				loadSourceCode();
+			}
+		}
+	}
+
+	private void loadSourceCode() {
+		// Can now load the source code since we have permission to read
+		Log.i(StringLiterals.LogTag, "Starting parse");
+		SourceCode.loadSourceCode(MainActivity.this);
+	}
+
+	private void displayPermissionsDeniedMessage() {
+		Log.i(StringLiterals.LogTag, "displayPermissionsDeniedMessage");
+
+		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		alertDialogBuilder.setTitle(getString(R.string.permissions));
+		alertDialogBuilder.setMessage(getString(R.string.permissions_not_granted));
+
+		alertDialogBuilder.setPositiveButton(StringLiterals.RequestPermissions, (dialog, which) -> {
+			requestPermissions();
+		});
+
+		alertDialogBuilder.setNegativeButton(StringLiterals.Cancel, (dialog, which) -> {
+			finish();
+		});
+
+		final AlertDialog promptDialog = alertDialogBuilder.create();
+		promptDialog.setCancelable(false);
+		promptDialog.show();
+	}
+
+	private void displayGameOverMessage() {
+		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		alertDialogBuilder.setTitle(getString(R.string.permissions));
+		alertDialogBuilder.setMessage(getString(R.string.game_over));
+
+		alertDialogBuilder.setPositiveButton(StringLiterals.OK, (dialog, which) -> {
+			finish();
+		});
+
+		final AlertDialog promptDialog = alertDialogBuilder.create();
+		promptDialog.setCancelable(false);
+		promptDialog.show();
 	}
 
 	@Override
@@ -175,9 +266,6 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 
         ExecuteMethodTask.listen(this);
         SourceCode.listen(this);
-
-        Log.i(StringLiterals.LogTag, "Starting parse");
-        SourceCode.loadSourceCode(MainActivity.this);
 
         return true;
     }
@@ -221,42 +309,48 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 	public void onEnterString() {
 		startActivityForResult(new Intent(MainActivity.this, EnterStringActivity.class), ENTER_STRING);
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
-		switch(requestCode) {
-		case ENTER_STRING: {
-			if (resultCode == RESULT_OK) {
-				String stringText = data.getExtras().getString(StringLiterals.StringText);
-				displayFragment.pushValue(new ResultWrapper(stringText));
-			}
-		}
-		break;
-		
-		case RUN_METHODS: {
-			if (resultCode == RESULT_OK) {
-				String stackDataString = data.getExtras().getString(StringLiterals.StackData);
 
-				Object obj = SerializeDeserialize.deserialize(stackDataString);
-				
-				if (obj instanceof Stack<?>) {
-					@SuppressWarnings("unchecked")
-					Stack<ResultWrapper> stackData = (Stack<ResultWrapper>) obj;
-			
-					displayFragment.setStackData(stackData);
-					displayFragment.updateStack();
+		switch (requestCode) {
+			case ACCEPT_LICENSE_TERMS: {
+				requestPermissions();
+			}
+			break;
+
+			case ENTER_STRING: {
+				if (resultCode == RESULT_OK) {
+					String stringText = data.getExtras().getString(StringLiterals.StringText);
+					displayFragment.pushValue(new ResultWrapper(stringText));
 				}
 			}
-		}
-		break;
-		
-		case SETTINGS: {
-			if (resultCode == SettingsActivity.CHANGED_COLUMN_MODE) {
-				this.recreate();
+			break;
+
+			case RUN_METHODS: {
+				if (resultCode == RESULT_OK) {
+					String stackDataString = data.getExtras().getString(StringLiterals.StackData);
+
+					Object obj = SerializeDeserialize.deserialize(stackDataString);
+
+					if (obj instanceof Stack<?>) {
+						@SuppressWarnings("unchecked")
+						Stack<ResultWrapper> stackData = (Stack<ResultWrapper>) obj;
+
+						displayFragment.setStackData(stackData);
+						displayFragment.updateStack();
+					}
+				}
 			}
-		}
+			break;
+
+			case SETTINGS: {
+				if (resultCode == SettingsActivity.CHANGED_COLUMN_MODE) {
+					this.recreate();
+				}
+			}
+			break;
 		}
 	}
 

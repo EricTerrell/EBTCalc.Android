@@ -33,4 +33,7 @@ public class StringLiterals {
 	public static final String AllowCancel                = "allowCancel";
 	public static final String StackDataStringArrayString = "stackDataStringArrayString";
 	public static final String StackData                  = "StackData";
+	public static final String RequestPermissions         = "Request Permissions";
+	public static final String OK                         = "OK";
+	public static final String Cancel                     = "Cancel";
 }

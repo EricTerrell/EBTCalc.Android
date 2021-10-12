@@ -5,12 +5,11 @@ android {
 
     defaultConfig {
         applicationId "com.ericbt.rpncalc"
-        minSdkVersion 15
+        minSdkVersion 23
         targetSdkVersion 29
     }
     buildTypes {
         release {
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -27,11 +26,13 @@ android {
             dimension "flavors"
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation files('libs/js.jar')
-
-    implementation 'androidx.appcompat:appcompat:1.2.0'
 }
