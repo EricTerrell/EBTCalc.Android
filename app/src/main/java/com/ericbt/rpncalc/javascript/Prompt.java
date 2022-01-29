@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -78,6 +78,7 @@ public class Prompt implements Serializable {
 		}
 	}
 
+	// This method is really used - called from custom code (e.g. Computer Math / Enter Bin.
 	public NativeArray prompt(NativeArray nativeArray, String title) {
 		setResultsAreAvailable(false);
 		
@@ -94,13 +95,10 @@ public class Prompt implements Serializable {
 		
 		Prompt.promptItems = promptItems;
 		
-		Globals.getMainActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				Intent promptActivity = new Intent(Globals.getMainActivity(), PromptActivity.class);
-				promptActivity.putExtra("Title", Prompt.this.title);
-				Globals.getMainActivity().startActivity(promptActivity);
-			}
+		Globals.getMainActivity().runOnUiThread(() -> {
+			Intent promptActivity = new Intent(Globals.getMainActivity(), PromptActivity.class);
+			promptActivity.putExtra("Title", Prompt.this.title);
+			Globals.getMainActivity().startActivity(promptActivity);
 		});
 		
 		while (!resultsAreAvailable()) {

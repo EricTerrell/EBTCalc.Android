@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -24,8 +24,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -50,24 +48,20 @@ public class RuntimeErrorActivity extends Activity {
 		
 		Button edit = (Button) findViewById(R.id.Edit);
 		
-		edit.setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				finish();
-				
-				Intent editMethods = new Intent(RuntimeErrorActivity.this, EditMethodsActivity.class);
-				editMethods.putExtra(StringLiterals.SourcePosition, sourcePosition);
-				RuntimeErrorActivity.this.startActivity(editMethods);
-			}
+		edit.setOnClickListener(view -> {
+			finish();
+
+			Intent editMethods = new Intent(RuntimeErrorActivity.this, EditMethodsActivity.class);
+			editMethods.putExtra(StringLiterals.SourcePosition, sourcePosition);
+			RuntimeErrorActivity.this.startActivity(editMethods);
 		});
 
-		Button settings = (Button) findViewById(R.id.Settings);
+		Button settings = findViewById(R.id.Settings);
 		
-		settings.setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				finish();
+		settings.setOnClickListener(view -> {
+			finish();
 
-				RuntimeErrorActivity.this.startActivity(new Intent(RuntimeErrorActivity.this, SettingsActivity.class));
-			}
+			RuntimeErrorActivity.this.startActivity(new Intent(RuntimeErrorActivity.this, SettingsActivity.class));
 		});
 	}
 

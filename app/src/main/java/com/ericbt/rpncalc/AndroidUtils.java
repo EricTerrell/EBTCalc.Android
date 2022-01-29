@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -22,7 +22,6 @@ package com.ericbt.rpncalc;
 
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -33,18 +32,16 @@ public class AndroidUtils {
 	 * @param button Button that will be clicked implicitly when Enter is pressed.
 	 */
 	public static void clickButtonWhenEnterPressed(EditText editText, final Button button) {
-		editText.setOnKeyListener(new OnKeyListener() {
-		    public boolean onKey(View v, int keyCode, KeyEvent event) {
-		    	boolean result = false;
-		    	
-		        // If the event is a key-down event on the "enter" button
-		        if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER && button.isEnabled() && button.getVisibility() == View.VISIBLE) {
-		        	button.performClick();
-		        	result = true;
-		        }
-		        
-		        return result;
-		    }
+		editText.setOnKeyListener((v, keyCode, event) -> {
+			boolean result = false;
+
+			// If the event is a key-down event on the "enter" button
+			if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER && button.isEnabled() && button.getVisibility() == View.VISIBLE) {
+				button.performClick();
+				result = true;
+			}
+
+			return result;
 		});
 	}
 

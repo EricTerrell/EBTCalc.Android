@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -28,7 +28,6 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -88,216 +87,177 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.main_keypad, container, false);
 	
-		enclosingLayout = (LinearLayout) view.findViewById(R.id.EnclosingLayout);
+		enclosingLayout = view.findViewById(R.id.EnclosingLayout);
 
 		setupDecimalPointButton(view);
 		setupDigitButtons(view);
 		
-		final Button enter = (Button) view.findViewById(R.id.Enter);
+		final Button enter = view.findViewById(R.id.Enter);
 		
 		enter.setText(Html.fromHtml("E<br>n<br>t<br>e<br>r"));
 		
-		enter.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().enter();
-			}
+		enter.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().enter();
 		});
 
 		enter.setTag(new NObjects(1));
 		
-		final Button drop = (Button) view.findViewById(R.id.Drop);
+		final Button drop = view.findViewById(R.id.Drop);
 		
-		drop.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().drop();
-			}
+		drop.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().drop();
 		});
 
 		drop.setTag(new NObjects(1));
 		
-		final Button pi = (Button) view.findViewById(R.id.Pi);
+		final Button pi = view.findViewById(R.id.Pi);
 		pi.setTag(new CanPush());
 		
-		pi.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().pi();
-			}
+		pi.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().pi();
 		});
 
-		final Button swap = (Button) view.findViewById(R.id.Swap);
+		final Button swap = view.findViewById(R.id.Swap);
 		
-		swap.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().swap();
-			}
+		swap.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().swap();
 		});
 
 		swap.setTag(new NObjects(2));
 		
-		final Button clearEntry = (Button) view.findViewById(R.id.ClearEntry);
+		final Button clearEntry = view.findViewById(R.id.ClearEntry);
 		
-		clearEntry.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().clearEntry();
-			}
+		clearEntry.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().clearEntry();
 		});
 		
 		clearEntry.setTag(new HasText());
 
-		final Button clearAll = (Button) view.findViewById(R.id.ClearAll);
+		final Button clearAll = view.findViewById(R.id.ClearAll);
 		
-		clearAll.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().clearAll();
-			}
+		clearAll.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().clearAll();
 		});
 
 		clearAll.setTag(new TextOrStackItem());
 		
-		final Button changeSign = (Button) view.findViewById(R.id.ChangeSign);
+		final Button changeSign = view.findViewById(R.id.ChangeSign);
 		
-		changeSign.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().changeSign();
-			}
+		changeSign.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().changeSign();
 		});
 		
 		changeSign.setTag(new OneDouble());
 
-		final Button recip = (Button) view.findViewById(R.id.Recip);
+		final Button recip = view.findViewById(R.id.Recip);
 		
-		recip.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().reciprocal();
-			}
+		recip.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().reciprocal();
 		});
 
 		recip.setTag(new OneDouble());
 
-		final Button sqrt = (Button) view.findViewById(R.id.Sqrt);
+		final Button sqrt = view.findViewById(R.id.Sqrt);
 		
-		sqrt.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().sqrt();
-			}
+		sqrt.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().sqrt();
 		});
 
 		sqrt.setTag(new OneDouble());
 
-		final Button square = (Button) view.findViewById(R.id.Square);
+		final Button square = view.findViewById(R.id.Square);
 		
-		square.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().square();
-			}
+		square.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().square();
 		});
 
 		square.setTag(new OneDouble());
 
-		final Button backspace = (Button) view.findViewById(R.id.Backspace);
+		final Button backspace = view.findViewById(R.id.Backspace);
 		
-		backspace.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().backspace();
-			}
+		backspace.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().backspace();
 		});
 
 		backspace.setTag(new HasText());
 		
-		programmableMethods = (Button) view.findViewById(R.id.ProgrammableMethods);
+		programmableMethods = view.findViewById(R.id.ProgrammableMethods);
 		programmableMethods.setTag(new ProgrammableMethods(mainActivity));
 		
-		programmableMethods.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.onRunProgrammableMethods();
-			}
+		programmableMethods.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.onRunProgrammableMethods();
 		});
 		
-		final Button enterString = (Button) view.findViewById(R.id.EnterString);
+		final Button enterString = view.findViewById(R.id.EnterString);
 		enterString.setTag(new CanPush());
 		
-		enterString.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.onEnterString();
-			}
+		enterString.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.onEnterString();
 		});
 		
-		final Button raise = (Button) view.findViewById(R.id.Raise);
+		final Button raise = view.findViewById(R.id.Raise);
 		
-		raise.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().raise();
-			}
+		raise.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().raise();
 		});
 		
 		raise.setTag(new TwoDoubles());
 		
-		final Button sciNot = (Button) view.findViewById(R.id.SciNot);
+		final Button sciNot = view.findViewById(R.id.SciNot);
 		
-		sciNot.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().scientificNotation();
-			}
+		sciNot.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().scientificNotation();
 		});
 		
 		sciNot.setTag(new TwoDoubles());
 		
-		final Button percent = (Button) view.findViewById(R.id.Percent);
+		final Button percent = view.findViewById(R.id.Percent);
 		
-		percent.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().percent();
-			}
+		percent.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().percent();
 		});
 		
 		percent.setTag(new OneDouble());
 		
-		final Button fixedPoint = (Button) view.findViewById(R.id.Fix);
+		final Button fixedPoint = view.findViewById(R.id.Fix);
 		
-		fixedPoint.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().fixedPoint();
-			}
+		fixedPoint.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().fixedPoint();
 		});
 		
 		fixedPoint.setTag(new CanFix());
 		
-		final Button floatingPoint = (Button) view.findViewById(R.id.Float);
+		final Button floatingPoint = view.findViewById(R.id.Float);
 		floatingPoint.setTag(new CanPush());
 			
-		floatingPoint.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().floatingPoint();
-			}
+		floatingPoint.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().floatingPoint();
 		});
 		
-		final Button factorial = (Button) view.findViewById(R.id.Factorial);
+		final Button factorial = view.findViewById(R.id.Factorial);
 		factorial.setTag(new Factorial());
 		
-		factorial.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().factorial();
-			}
+		factorial.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().factorial();
 		});
 		
 		final Button decimalPoint = (Button) view.findViewById(R.id.DecimalPoint);
@@ -334,12 +294,10 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
         for (int buttonID : buttonIDs) {
             Button button = (Button) view.findViewById(buttonID);
 
-            button.setOnClickListener(new OnClickListener() {
-                public void onClick(View button) {
-                    SoundEffect.playKeyClick();
-                    mainActivity.getDisplayFragment().digitDecimalOrBackspace(((Button) button).getText().charAt(0));
-                }
-            });
+            button.setOnClickListener(button1 -> {
+				SoundEffect.playKeyClick();
+				mainActivity.getDisplayFragment().digitDecimalOrBackspace(((Button) button1).getText().charAt(0));
+			});
 
             if (buttonID != R.id.DecimalPoint) {
                 button.setTag(new UnconditionallyValid());
@@ -350,44 +308,36 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 	private void setupFourFunctionButtons(View view) {
 		final Button add = (Button) view.findViewById(R.id.Add);
 		
-		add.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().add();
-			}
+		add.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().add();
 		});
 
 		add.setTag(new TwoDoubles());
 		
 		final Button subtract = (Button) view.findViewById(R.id.Subtract);
 		
-		subtract.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().subtract();
-			}
+		subtract.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().subtract();
 		});
 
 		subtract.setTag(new TwoDoubles());
 
 		final Button multiply = (Button) view.findViewById(R.id.Multiply);
 		
-		multiply.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().multiply();
-			}
+		multiply.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().multiply();
 		});
 
 		multiply.setTag(new TwoDoubles());
 
 		final Button divide = (Button) view.findViewById(R.id.Divide);
 		
-		divide.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().divide();
-			}
+		divide.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().divide();
 		});
 		
 		divide.setTag(new TwoDoubles());
@@ -397,34 +347,25 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		Button stackToArray = (Button) view.findViewById(R.id.StackToArray);
 		stackToArray.setTag(new UnconditionallyValid());
 		
-		stackToArray.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().stackToArray();
-			}
+		stackToArray.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().stackToArray();
 		});
 		
 		Button arrayToStack = (Button) view.findViewById(R.id.ArrayToStack);
 		arrayToStack.setTag(new TopItemIs1DArray());
 		
-		arrayToStack.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().arrayToStack();
-			}
+		arrayToStack.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().arrayToStack();
 		});
 		
 		Button stackNToArray = (Button) view.findViewById(R.id.StackNToArray);
 		stackNToArray.setTag(new StackNToArray());
 		
-		stackNToArray.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().stackNToArray();
-			}
+		stackNToArray.setOnClickListener(v -> {
+			SoundEffect.playKeyClick();
+			mainActivity.getDisplayFragment().stackNToArray();
 		});
 	}
 	

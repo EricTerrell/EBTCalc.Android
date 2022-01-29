@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -42,31 +41,23 @@ public class AboutActivity extends Activity {
 		
         boolean isFreeVersion = Globals.isFreeVersion();
         
-        Button upgrade = (Button) findViewById(R.id.Upgrade);
+        Button upgrade = findViewById(R.id.Upgrade);
         upgrade.setEnabled(isFreeVersion);
         upgrade.setVisibility(isFreeVersion ? View.VISIBLE : View.INVISIBLE);
         
         if (isFreeVersion) {
-        	upgrade.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					new UpgradeDialog(AboutActivity.this).display();
-				}
-			});
+        	upgrade.setOnClickListener(v -> new UpgradeDialog(AboutActivity.this).display());
         }
 		
-		Button readLicenseTermsButton = (Button) findViewById(R.id.ReadLicenseTerms);
+		Button readLicenseTermsButton = findViewById(R.id.ReadLicenseTerms);
 		
-		readLicenseTermsButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(AboutActivity.this, LicenseTermsActivity.class);
-				intent.putExtra(StringLiterals.AllowCancel, true);
-                startActivity(intent);
-			}
+		readLicenseTermsButton.setOnClickListener(v -> {
+			final Intent intent = new Intent(AboutActivity.this, LicenseTermsActivity.class);
+			intent.putExtra(StringLiterals.AllowCancel, true);
+startActivity(intent);
 		});
 	
-		TextView version = (TextView) findViewById(R.id.Version);
+		TextView version = findViewById(R.id.Version);
 		
 		String versionName = MiscUtils.getVersionName();
 		

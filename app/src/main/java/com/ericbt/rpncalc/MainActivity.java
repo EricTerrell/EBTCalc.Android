@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -22,13 +22,10 @@ package com.ericbt.rpncalc;
 
 import java.util.Stack;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.net.Uri;
@@ -49,15 +46,13 @@ import com.ericbt.rpncalc.javascript.SourceCode;
 import com.ericbt.rpncalc.javascript.SourceCodeParseListener;
 
 public class MainActivity extends Activity implements MethodExecutionListener, SourceCodeParseListener {
-	private final static int REQUEST_PERMISSIONS_CODE = 1000;
-	private final static int ACCEPT_LICENSE_TERMS     = 1001;
+	private final static int ACCEPT_LICENSE_TERMS = 1001;
 
 	private Menu optionsMenu;
 	private ProgrammableKeypadFragment programmableKeypadFragment;
 	private DisplayFragment displayFragment;
 	private LinearLayout enclosingView;
 	private boolean created;
-	private int numberOfRejections = 0;
 
 	private static final int ENTER_STRING = 1;
 	private static final int RUN_METHODS = 2;
@@ -87,19 +82,19 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 		else {
 	        setContentView(R.layout.main);
 
-	        enclosingView = (LinearLayout) findViewById(R.id.EnclosingView);
+	        enclosingView = findViewById(R.id.EnclosingView);
 	        
 			setTitle(String.format(getString(R.string.main_title), getString(R.string.app_name)));
 
 			// Hide the right programmable keypad view if there is insufficient width.
 	        if (!wideEnoughForTwoColumnDisplay()) {
-	        	LinearLayout programmableKeypadView = (LinearLayout) findViewById(R.id.ProgrammableKeypadRight);
+	        	LinearLayout programmableKeypadView = findViewById(R.id.ProgrammableKeypadRight);
 	        	
 	        	programmableKeypadView.setVisibility(View.GONE);
 	        	enclosingView.setWeightSum(0.5f);
 	        }
 	        else {
-	        	LinearLayout leftProgrammableKeypadView = (LinearLayout) findViewById(R.id.LeftProgrammableKeyboard);
+	        	LinearLayout leftProgrammableKeypadView = findViewById(R.id.LeftProgrammableKeyboard);
 	        	leftProgrammableKeypadView.setVisibility(View.GONE);
 	        }
 	
@@ -112,7 +107,19 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 
 	        	startActivityForResult(licenseTermsIntent, ACCEPT_LICENSE_TERMS);
 	        } else {
-	        	requestPermissions();
+	        	loadSourceCode();
+			}
+		}
+
+		// import source code from another app
+		// Get intent, action and MIME type
+		final Intent intent = getIntent();
+		final String action = intent.getAction();
+		final String type = intent.getType();
+
+		if (Intent.ACTION_SEND.equals(action) && type != null) {
+			if ("text/plain".equals(type)) {
+				SourceCode.setUserCode(intent.getStringExtra(Intent.EXTRA_TEXT), this);
 			}
 		}
 
@@ -138,7 +145,6 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 		}
 	}
 
-
 	@Override
 	public void onAttachFragment(Fragment fragment) {
     	Log.i(StringLiterals.LogTag, "MainActivity.onAttachFragment");
@@ -157,91 +163,14 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 		super.onAttachFragment(fragment);
 	}
 
-	protected boolean havePermissions() {
-		return checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-				PackageManager.PERMISSION_GRANTED;
-	}
-
-	protected void requestPermissions() {
-		Log.i(StringLiterals.LogTag, "requestPermissions");
-
-		if (havePermissions()) {
-			loadSourceCode();
-		} else {
-			final String[] permissions = new String[] {
-					Manifest.permission.WRITE_EXTERNAL_STORAGE
-			};
-
-			requestPermissions(permissions, REQUEST_PERMISSIONS_CODE);
-		}
-	}
-
-	@Override
-	public void onRequestPermissionsResult(int requestCode,
-										   String[] permissions,
-										   int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-		Log.i(StringLiterals.LogTag, "MainActivity.onRequestPermissionsResult");
-
-		if (requestCode == REQUEST_PERMISSIONS_CODE) {
-			// Checking whether user granted the permission or not.
-			if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-				numberOfRejections++;
-
-				Log.i(StringLiterals.LogTag,
-						String.format("numberOfRejections: %d", numberOfRejections));
-
-				// https://www.androidpolice.com/2020/02/19/android-11-will-block-apps-from-repeatedly-asking-for-permissions/
-				if (numberOfRejections < 2) {
-					displayPermissionsDeniedMessage();
-				} else {
-					displayGameOverMessage();
-				}
-			} else {
-				loadSourceCode();
-			}
-		}
-	}
-
 	private void loadSourceCode() {
 		// Can now load the source code since we have permission to read
 		Log.i(StringLiterals.LogTag, "Starting parse");
-		SourceCode.loadSourceCode(MainActivity.this);
-	}
 
-	private void displayPermissionsDeniedMessage() {
-		Log.i(StringLiterals.LogTag, "displayPermissionsDeniedMessage");
+		SourceCode.loadBuiltInCode(MainActivity.this);
+		SourceCode.loadUserCode(MainActivity.this);
 
-		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-		alertDialogBuilder.setTitle(getString(R.string.permissions));
-		alertDialogBuilder.setMessage(getString(R.string.permissions_not_granted));
-
-		alertDialogBuilder.setPositiveButton(StringLiterals.RequestPermissions, (dialog, which) -> {
-			requestPermissions();
-		});
-
-		alertDialogBuilder.setNegativeButton(StringLiterals.Cancel, (dialog, which) -> {
-			finish();
-		});
-
-		final AlertDialog promptDialog = alertDialogBuilder.create();
-		promptDialog.setCancelable(false);
-		promptDialog.show();
-	}
-
-	private void displayGameOverMessage() {
-		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-		alertDialogBuilder.setTitle(getString(R.string.permissions));
-		alertDialogBuilder.setMessage(getString(R.string.game_over));
-
-		alertDialogBuilder.setPositiveButton(StringLiterals.OK, (dialog, which) -> {
-			finish();
-		});
-
-		final AlertDialog promptDialog = alertDialogBuilder.create();
-		promptDialog.setCancelable(false);
-		promptDialog.show();
+		SourceCode.setUserCode(SourceCode.getUserCode(), this);
 	}
 
 	@Override
@@ -251,8 +180,9 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 		if (!PromptActivity.isActive() && !LicenseTermsActivity.isActive()) {
 			// Ensure that any pending source code parses or method executions do not happen after a rotation.
 			BackgroundTasks.cancel(false);
+			enableOptionsMenuItems(true);
 		}
-		
+
 		super.onStop();
 	}
 
@@ -302,8 +232,22 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			startActivity(intent);
 		}
+		else if (item.getItemId() == R.id.share) {
+			shareCode();
+
+			result = true;
+		}
 
 		return result;
+	}
+
+	private void shareCode() {
+		final Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+
+		sharingIntent.setType("text/plain");
+		sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.code));
+		sharingIntent.putExtra(Intent.EXTRA_TEXT, SourceCode.getUserCode());
+		startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_via)));
 	}
 
 	public void onEnterString() {
@@ -316,7 +260,7 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 
 		switch (requestCode) {
 			case ACCEPT_LICENSE_TERMS: {
-				requestPermissions();
+				loadSourceCode();
 			}
 			break;
 
@@ -400,13 +344,12 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-        Button button = (Button) view;
-        
-		Intent editMethods = new Intent(this, EditMethodsActivity.class);
+        final Button button = (Button) view;
+
+		final Intent editMethods = new Intent(this, EditMethodsActivity.class);
 		editMethods.putExtra(StringLiterals.SourcePosition, ((MethodMetadata) button.getTag()).getPosition());
 		startActivity(editMethods);
 
 		super.onCreateContextMenu(menu, view, menuInfo);
 	}
-
 }

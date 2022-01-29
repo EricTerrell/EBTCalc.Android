@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -22,7 +22,6 @@ package com.ericbt.rpncalc;
 
 public class StringLiterals {
 	public static final String LogTag                     = "EBTCalc";
-	public static final String SourceFileName             = "custom.js";
 	public static final String LogFileName                = "ebtcalc_log.txt";
 	public static final String NewLine                    = System.getProperty("line.separator");
 	public static final String PrivatePrefix              = "_";
@@ -33,7 +32,5 @@ public class StringLiterals {
 	public static final String AllowCancel                = "allowCancel";
 	public static final String StackDataStringArrayString = "stackDataStringArrayString";
 	public static final String StackData                  = "StackData";
-	public static final String RequestPermissions         = "Request Permissions";
-	public static final String OK                         = "OK";
-	public static final String Cancel                     = "Cancel";
+	public static final String Empty                      = "";
 }

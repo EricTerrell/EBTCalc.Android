@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -63,10 +63,13 @@ public class CustomContextFactory extends ContextFactory {
 
 	@Override
 	public Context enterContext() {
-		Context context = super.enterContext();
+		final Context context = enterContext(new CustomContext(this));
 		
 		// Android requires optimization level -1.
+		// https://github.com/mozilla/rhino/discussions/1162
 		context.setOptimizationLevel(-1);
+
+		context.setLanguageVersion(CustomContext.JAVASCRIPT_VERSION);
 
 		// Enable instruction observer callbacks.
 		context.setInstructionObserverThreshold(1000);

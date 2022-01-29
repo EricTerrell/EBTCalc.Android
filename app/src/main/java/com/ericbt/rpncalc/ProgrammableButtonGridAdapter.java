@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -26,7 +26,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -81,13 +80,11 @@ public class ProgrammableButtonGridAdapter extends BaseAdapter {
 		NObjects validator = new NObjects(methodMetadata.getArguments().size());
 		programmableButton.setEnabled(validator.isValid(displayFragment.getStackData(), displayFragment.getText()));
 		
-		programmableButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View customButton) {
-				SoundEffect.playKeyClick();
-				displayFragment.push();
-				
-				new ExecuteMethodTask().execute(new ExecuteMethodTaskParameters((MethodMetadata) customButton.getTag(), displayFragment));
-			}
+		programmableButton.setOnClickListener(customButton -> {
+			SoundEffect.playKeyClick();
+			displayFragment.push();
+
+			new ExecuteMethodTask().execute(new ExecuteMethodTaskParameters((MethodMetadata) customButton.getTag(), displayFragment));
 		});
 		
 		((Activity) context).registerForContextMenu(programmableButton);

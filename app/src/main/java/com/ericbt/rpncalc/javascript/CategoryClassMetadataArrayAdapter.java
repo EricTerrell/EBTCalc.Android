@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -55,7 +55,7 @@ public class CategoryClassMetadataArrayAdapter extends ArrayAdapter<CategoryClas
         	convertView = infalInflater.inflate(R.layout.class_spinner_item, null);
         }
         
-        TextView className = (TextView) convertView.findViewById(R.id.ClassName);
+        TextView className = convertView.findViewById(R.id.ClassName);
         className.setText(item.getCategoryName());
         
         return convertView;

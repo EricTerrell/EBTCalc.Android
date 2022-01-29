@@ -3,8 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/EBTCalc.Android/app/src/main/res/drawable-ldpi/ic_share.xml" value="0.1" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/EBTCalc.Android/app/src/main/res/drawable-ldpi/ic_share_disabled.xml" value="0.1465" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/EBTCalc.Android/app/src/main/res/drawable/ic_share.xml" value="0.1465" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/EBTCalc.Android/app/src/main/res/layout/about_dialog.xml" value="0.3138586956521739" />
         <entry key="..\:/Users/Eric Terrell/Documents/software development/EBTCalc.Android/app/src/main/res/layout/class_spinner_dropdown_item.xml" value="0.3546875" />
         <entry key="..\:/Users/Eric Terrell/Documents/software development/EBTCalc.Android/app/src/main/res/layout/class_spinner_item.xml" value="0.3546875" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/EBTCalc.Android/app/src/main/res/layout/edit_methods.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/EBTCalc.Android/app/src/main/res/layout/enter_string.xml" value="0.1" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/EBTCalc.Android/app/src/main/res/layout/layout.xml" value="0.22760416666666666" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/EBTCalc.Android/app/src/main/res/layout/prompt_table_row.xml" value="0.1" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/EBTCalc.Android/app/src/main/res/menu/edit_methods_menu.xml" value="0.2851851851851852" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/EBTCalc.Android/app/src/main/res/menu/points_activity_menu.xml" value="0.2851851851851852" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/EBTCalc.Android/app/src/main/res/xml/preferences.xml" value="0.26197916666666665" />
       </map>
     </option>
   </component>

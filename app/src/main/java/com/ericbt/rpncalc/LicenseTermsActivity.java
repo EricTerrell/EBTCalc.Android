@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -22,12 +22,9 @@ package com.ericbt.rpncalc;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RadioButton;
 
@@ -64,47 +61,41 @@ public class LicenseTermsActivity extends Activity {
 		
 		setTitle(String.format(getString(R.string.license_terms_title), getString(R.string.app_name)));
 
-		final RadioButton acceptLicenseTerms = (RadioButton) findViewById(R.id.AcceptLicenseTerms);
+		final RadioButton acceptLicenseTerms = findViewById(R.id.AcceptLicenseTerms);
 		acceptLicenseTerms.setChecked(Preferences.getUserAcceptedTerms());
 		
-		final RadioButton rejectLicenseTerms = (RadioButton) findViewById(R.id.RejectLicenseTerms);
+		final RadioButton rejectLicenseTerms = findViewById(R.id.RejectLicenseTerms);
 		rejectLicenseTerms.setChecked(!Preferences.getUserAcceptedTerms());
 		
-		Button okButton = (Button) findViewById(R.id.OKButton);
+		Button okButton = findViewById(R.id.OKButton);
 
-		okButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final boolean userAcceptedTerms = acceptLicenseTerms.isChecked();
-				
-				Preferences.putUserAcceptedTerms(userAcceptedTerms);
-				
-				if (!userAcceptedTerms) {
-					AlertDialog.Builder userRejectedTermsDialogBuilder = new AlertDialog.Builder(LicenseTermsActivity.this);
-					userRejectedTermsDialogBuilder.setTitle(String.format("Rejected %s License Terms", getString(R.string.app_name)));
-					userRejectedTermsDialogBuilder.setMessage(String.format("You rejected the %s license terms. Please uninstall %s immediately.", getString(R.string.app_name), getString(R.string.app_name)));
-					userRejectedTermsDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							alertDialog.dismiss();
-							
-							finish();
-							
-							Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-						    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						    intent.putExtra("EXIT", true);
-						    startActivity(intent);
-						}
-					});
-					
-					userRejectedTermsDialogBuilder.setCancelable(false);
-					
-					alertDialog = userRejectedTermsDialogBuilder.create();
-					alertDialog.show();
-				}
-				else {
+		okButton.setOnClickListener(v -> {
+			final boolean userAcceptedTerms = acceptLicenseTerms.isChecked();
+
+			Preferences.putUserAcceptedTerms(userAcceptedTerms);
+
+			if (!userAcceptedTerms) {
+				AlertDialog.Builder userRejectedTermsDialogBuilder = new AlertDialog.Builder(LicenseTermsActivity.this);
+				userRejectedTermsDialogBuilder.setTitle(String.format("Rejected %s License Terms", getString(R.string.app_name)));
+				userRejectedTermsDialogBuilder.setMessage(String.format("You rejected the %s license terms. Please uninstall %s immediately.", getString(R.string.app_name), getString(R.string.app_name)));
+				userRejectedTermsDialogBuilder.setPositiveButton("OK", (dialog, which) -> {
+					alertDialog.dismiss();
+
 					finish();
-				}
+
+					Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					intent.putExtra("EXIT", true);
+					startActivity(intent);
+				});
+
+				userRejectedTermsDialogBuilder.setCancelable(false);
+
+				alertDialog = userRejectedTermsDialogBuilder.create();
+				alertDialog.show();
+			}
+			else {
+				finish();
 			}
 		});
 	}

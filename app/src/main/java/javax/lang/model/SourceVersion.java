@@ -1,7 +1,7 @@
 /*
   EBTCalc
   (C) Copyright 2022, Eric Bergman-Terrell
-  
+
   This file is part of EBTCalc.
 
     EBTCalc is free software: you can redistribute it and/or modify
@@ -18,26 +18,16 @@
     along with EBTCalc.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.ericbt.rpncalc;
+// https://github.com/mozilla/rhino/issues/1149
 
-import android.app.Application;
-import android.util.Log;
+package javax.lang.model;
 
-import com.ericbt.rpncalc.javascript.SourceCode;
+public class SourceVersion {
+    public static SourceVersion latestSupported() {
+        return new SourceVersion();
+    }
 
-public class RPNCalcApplication extends Application {
-
-	@Override
-	public void onCreate() {
-		super.onCreate();
-
-		Thread.setDefaultUncaughtExceptionHandler(new CustomUncaughtExceptionHandler());
-		
-		Log.i(StringLiterals.LogTag, "RPNCalcApplication.onCreate");
-		Log.i(StringLiterals.LogTag, String.format("SourceCode.getListenerCount: %d", SourceCode.getListenerCount()));
-		
-		Globals.setApplication(this);
-		Globals.setInitialLaunch(true);
-	}
-
+    public final int ordinal() {
+        return 8;
+    }
 }

@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -30,7 +30,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -97,23 +96,15 @@ public class PromptActivity extends Activity {
 		
 		okButton = (Button) findViewById(R.id.OK);
 		
-		okButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-				
-				Prompt.setResultsAreAvailable(true);
-			}
+		okButton.setOnClickListener(v -> {
+			finish();
+
+			Prompt.setResultsAreAvailable(true);
 		});
 		
 		Button cancelButton = (Button) findViewById(R.id.Cancel);
 		
-		cancelButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				cancel();
-			}
-		});
+		cancelButton.setOnClickListener(v -> cancel());
 		
 		TableLayout fieldsTableLayout = (TableLayout) findViewById(R.id.FieldsTableLayout);
 		

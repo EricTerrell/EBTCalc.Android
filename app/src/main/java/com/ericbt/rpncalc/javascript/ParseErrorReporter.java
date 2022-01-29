@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -64,5 +64,4 @@ public class ParseErrorReporter implements ErrorReporter {
 			int line, String lineSource, int lineOffset) {
 		return new EvaluatorException("runtime error", sourceName, line, lineSource, lineOffset);
 	}
-
 }

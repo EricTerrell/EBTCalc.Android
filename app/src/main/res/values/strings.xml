@@ -6,14 +6,16 @@
 	<string name="edit_methods_activity_force_portrait">true</string>
 	<string name="run_methods_activity_force_portrait">true</string>
 
-    <string name="permissions">Permissions</string>
-    <string name="permissions_not_granted">Permissions were not granted.\n\nEBTCalc will not function correctly until permissions are granted.\n\nPermissions are necessary to read and write custom button source code.\n\nClick \"Request Permissions\" to grant permissions.</string>
-    <string name="game_over">EBTCalc will not function without permissions. Please un-install EBTCalc.</string>
-
     <string name="app_version"></string>
     <string name="app_store"></string>
     <string name="paid_version_url"></string>
     <string name="bn_EAN"></string>
+
+    <string name="warn_user_update_code_title">Remove Built-In Code</string>
+    <string name="warn_user_update_code_message">Starting with EBTCalc version 1.45, code for built-in buttons cannot be edited by the user.\n\nPlease remove all built-in code immediately.\n\nBuilt-in code generally appears between the BUILT_IN_CODE_BEGIN and BUILT_IN_CODE_END comments.</string>
+
+    <string name="share_via">Share via</string>
+    <string name="code">Code</string>
 
     <string name="online_help_url">https://www.ericbt.com/EBTCalc</string>
     <string name="ebtcalc_desktop_url">https://ericbt.com/ebtcalc_electron</string>
@@ -25,13 +27,9 @@
     <string name="ok_button_text">OK</string>
     <string name="save_button_text">Save</string>
     <string name="edit_button_text">Edit</string>
-    <string name="export_button_text">Export</string>
-    <string name="import_button_text">Import</string>
-    <string name="update_builtins_button_text">Update Built-In Code</string>
     <string name="updown_button_text">↑↓</string>
     <string name="settings_button_text">Settings</string>
-    <string name="advanced_button_text">Advanced</string>
-    
+
     <string name="main_title">%s</string>
     <string name="runtime_error_title">%s - Runtime Error</string>
     <string name="edit_methods_title">%s - Edit</string>
@@ -106,7 +104,7 @@
     <string name="min_width_for_two_column_display">1024</string>
 
     <string name="license_terms">EBTCalc
-(C) Copyright 2020
+(C) Copyright 2022
 Eric Bergman-Terrell
 \n\n
 This program and its source code are licensed under the GNU General Public

@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -21,7 +21,6 @@
 package com.ericbt.rpncalc;
 
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 
 public class SoundEffect {
 	private static void play(int soundEffect) {
@@ -34,12 +33,7 @@ public class SoundEffect {
 			float volume = keyclickVolume / 10.0f;
 			mediaPlayer.setVolume(volume, volume);
 
-			mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
-				@Override
-				public void onCompletion(MediaPlayer mediaPlayer) {
-					mediaPlayer.release();
-				}
-			});
+			mediaPlayer.setOnCompletionListener(mediaPlayer1 -> mediaPlayer1.release());
 
 			mediaPlayer.start();
 		}

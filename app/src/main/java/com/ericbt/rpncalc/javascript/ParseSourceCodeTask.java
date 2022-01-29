@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -102,30 +102,32 @@ public class ParseSourceCodeTask extends AsyncTask<Void, Void, ParseSourceCodeTa
 	private static ParseSourceCodeTaskResult parseSourceCode() {
 		long startTime = System.currentTimeMillis();
 
-        CompilerEnvirons compilerEnv = new CompilerEnvirons();
-        ParseErrorReporter parseErrorReporter = new ParseErrorReporter();
+        final CompilerEnvirons compilerEnv = new CompilerEnvirons();
+        compilerEnv.setLanguageVersion(CustomContext.JAVASCRIPT_VERSION);
+        compilerEnv.setOptimizationLevel(-1);
 
-        CustomNodeVisitor customNodeVisitor = new CustomNodeVisitor();
+        final ParseErrorReporter parseErrorReporter = new ParseErrorReporter();
+
+        final CustomNodeVisitor customNodeVisitor = new CustomNodeVisitor();
 
 		List<ClassMetadata> allClassMetadata = new ArrayList<>();
-        
+
         try {
 	        // Create an instance of the parser...
-	        Parser parser = new Parser(compilerEnv, parseErrorReporter);
-	
-	        AstRoot astRoot = parser.parse(SourceCode.getSourceCode(), StringLiterals.SourceFileName, 1);
+	        final Parser parser = new Parser(compilerEnv, parseErrorReporter);
+
+	        final AstRoot astRoot = parser.parse(SourceCode.getMergedCode(), StringLiterals.Empty, 1);
 	        
 	        astRoot.visit(customNodeVisitor);
 
-	        Map<String, String> buttonConversions = getButtonConversions(SourceCode.getSourceCode());
-	        Map<String, String> classConversions = getCategoryConversions(SourceCode.getSourceCode());
-
-	        allClassMetadata = getClassMetadata(customNodeVisitor, buttonConversions, classConversions);
+	        allClassMetadata = getClassMetadata(customNodeVisitor,
+					getButtonConversions(SourceCode.getMergedCode()),
+					getCategoryConversions(SourceCode.getMergedCode()));
         }
         catch (Exception ex) {
         	Log.i(StringLiterals.LogTag, "SourceCode.parseSourceCode: runtime exception");
         }
-        
+
 		long elapsedMilliseconds = System.currentTimeMillis() - startTime;
 		Log.i(StringLiterals.LogTag, String.format("SourceCode.parseSourceCode: %d ms", elapsedMilliseconds));
 		

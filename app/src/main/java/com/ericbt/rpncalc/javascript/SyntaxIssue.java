@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -36,10 +36,6 @@ public class SyntaxIssue {
 	}
 
 	private final String sourceName;
-
-	public String getSourceName() {
-		return sourceName;
-	}
 
 	private final int line;
 

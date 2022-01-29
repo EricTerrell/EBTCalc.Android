@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -24,30 +24,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ericbt.rpncalc.javascript.ClassMetadata;
 import com.ericbt.rpncalc.javascript.ClassMetadataArrayAdapter;
@@ -62,14 +56,10 @@ import com.ericbt.rpncalc.javascript.SyntaxIssue.Severity;
 
 public class EditMethodsActivity extends Activity implements SourceCodeParseListener {
 	private String originalSourceCode;
-	private SourceCodeEditText sourceCode;
-	private Button saveButton, cancel, updown, advanced, fixIssues;
+	private EditText sourceCode;
+	private Button saveButton, cancel, updown, fixIssues;
 	private Spinner selectClass, selectMethod;
 	private TextView classMethodSeparator;
-	private static final Pattern builtInCodeBegin = Pattern.compile("/\\*[\\s]*BUILT_IN_CODE_BEGIN[^\\*^/]*\\*/", Pattern.CASE_INSENSITIVE);
-	private static final Pattern builtInCodeEnd = Pattern.compile("/\\*[\\s]*BUILT_IN_CODE_END[^\\*^/]*\\*/", Pattern.CASE_INSENSITIVE);
-	private static final Pattern userCodeBegin = Pattern.compile("/\\*[\\s]*USER_CODE_BEGIN[^\\*^/]*\\*/", Pattern.CASE_INSENSITIVE);
-	private static final Pattern userCodeEnd = Pattern.compile("/\\*[\\s]*USER_CODE_END[^\\*^/]*\\*/", Pattern.CASE_INSENSITIVE);
 	private boolean up = false;
 	private boolean created;
 	private AlertDialog promptDialog;
@@ -90,9 +80,9 @@ public class EditMethodsActivity extends Activity implements SourceCodeParseList
 
 		setTitle(String.format(getString(R.string.edit_methods_title), getString(R.string.app_name)));
 
-		originalSourceCode = SourceCode.getSourceCode();
+		originalSourceCode = SourceCode.getUserCode();
 
-		sourceCode = (SourceCodeEditText) findViewById(R.id.SourceCode);
+		sourceCode = findViewById(R.id.SourceCode);
 		sourceCode.setText(originalSourceCode);
 
 		sourceCode.addTextChangedListener(new TextWatcher() {
@@ -107,28 +97,20 @@ public class EditMethodsActivity extends Activity implements SourceCodeParseList
 				saveButton.setEnabled(sourceCodeHasChanged());
 			}
 		});
-		
-		selectClass = (Spinner) findViewById(R.id.SelectClass);
-		selectMethod = (Spinner) findViewById(R.id.SelectMethod);
-		classMethodSeparator = (TextView) findViewById(R.id.ClassMethodSeparator);
+
+		selectClass = findViewById(R.id.SelectClass);
+		selectMethod = findViewById(R.id.SelectMethod);
+		classMethodSeparator = findViewById(R.id.ClassMethodSeparator);
 
 		updateUI();
 
-		cancel = (Button) findViewById(R.id.Cancel);
+		cancel = findViewById(R.id.Cancel);
 
-		cancel.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				finish();
-			}
-		});
+		cancel.setOnClickListener(v -> finish());
 
-		saveButton = (Button) findViewById(R.id.Save);
+		saveButton = findViewById(R.id.Save);
 
-		saveButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				saveChanges();
-			}
-		});
+		saveButton.setOnClickListener(view -> saveChanges());
 
 		Bundle extras = getIntent().getExtras();
 
@@ -140,54 +122,22 @@ public class EditMethodsActivity extends Activity implements SourceCodeParseList
 			}
 		}
 
-		advanced = (Button) findViewById(R.id.Advanced);
-
-		advanced.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				PopupMenu popupMenu = new PopupMenu(EditMethodsActivity.this, view);
-				popupMenu.getMenuInflater().inflate(R.menu.edit_methods_menu, popupMenu.getMenu());
-				
-				popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-					@Override
-					public boolean onMenuItemClick(MenuItem item) {
-						final int menuId = item.getItemId();
-						
-						if (menuId == R.id.UpdateBuiltIns) {
-							updateSourceCode();
-						}
-						else if (menuId == R.id.Import) {
-							importSourceCode();
-						}
-						else if (menuId == R.id.Export) {
-							exportSourceCode();
-						}
-						
-						return true;
-					}
-				});
-
-				popupMenu.show();
-			}
-		});
-		
-		updown = (Button) findViewById(R.id.UpDown);
+		updown = findViewById(R.id.UpDown);
 
 		if (updown != null) {
-			updown.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (up) {
-						sourceCode.setSelection(0);
-					}
-					else {
-						sourceCode.setSelection(sourceCode.getEditableText().length());
-					}
-					
-					up = !up;
+			updown.setOnClickListener(v -> {
+				if (up) {
+					sourceCode.setSelection(0);
 				}
+				else {
+					sourceCode.setSelection(sourceCode.getEditableText().length());
+				}
+
+				up = !up;
 			});
 		}
+
+		sourceCode.requestFocus();
 
 		created = true;
 		
@@ -195,34 +145,28 @@ public class EditMethodsActivity extends Activity implements SourceCodeParseList
 	}
 
 	private void initIssuesUI(final List<SyntaxIssue> allIssues) {
-		fixIssues = (Button) findViewById(R.id.FixIssues);
+		fixIssues = findViewById(R.id.FixIssues);
 		
-		fixIssues.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				PopupMenu menu = new PopupMenu(fixIssues.getContext(), view);
-				
-				int menuId = 0;
-				int ordinalPosition = 0;
-				
-				for (SyntaxIssue syntaxIssue : allIssues) {
-					final String formatString = view.getContext().getString(syntaxIssue.getSeverity() == Severity.Error ? R.string.issue_menu_error : R.string.issue_menu_warning);
-					final String menuText = String.format(formatString, syntaxIssue.getMessage());
-					
-					menu.getMenu().add(Menu.NONE, menuId++, ordinalPosition++, menuText);
-				}
-				
-				menu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-					@Override
-					public boolean onMenuItemClick(MenuItem item) {
-						goToIssue(allIssues.get(item.getItemId()));
-						
-						return false;
-					}
-				});
-				
-				menu.show();
+		fixIssues.setOnClickListener(view -> {
+			PopupMenu menu = new PopupMenu(fixIssues.getContext(), view);
+
+			int menuId = 0;
+			int ordinalPosition = 0;
+
+			for (SyntaxIssue syntaxIssue : allIssues) {
+				final String formatString = view.getContext().getString(syntaxIssue.getSeverity() == Severity.Error ? R.string.issue_menu_error : R.string.issue_menu_warning);
+				final String menuText = String.format(formatString, syntaxIssue.getMessage());
+
+				menu.getMenu().add(Menu.NONE, menuId++, ordinalPosition++, menuText);
 			}
+
+			menu.setOnMenuItemClickListener(item -> {
+				goToIssue(allIssues.get(item.getItemId()));
+
+				return false;
+			});
+
+			menu.show();
 		});
 	}
 	
@@ -249,50 +193,6 @@ public class EditMethodsActivity extends Activity implements SourceCodeParseList
 		}
 	}
 
-	private void updateSourceCode() {
-		updateBuiltInCode();
-	}
-
-	private void importSourceCode() {
-		{
-			try {
-				String text = FileUtils.readFile(getImportExportFilePath());
-
-				Toast message = Toast.makeText(EditMethodsActivity.this, String.format("Imported methods from %s", getImportExportFilePath()), Toast.LENGTH_SHORT);
-				message.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-				message.show();
-
-				sourceCode.setText(text);
-			} catch (Exception ex) {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditMethodsActivity.this);
-				alertDialogBuilder.setTitle("Cannot Import File");
-				alertDialogBuilder.setMessage(String.format("Cannot import %s.", getImportExportFilePath()));
-				alertDialogBuilder.setPositiveButton("OK", null);
-
-				AlertDialog alertDialog = alertDialogBuilder.create();
-				alertDialog.show();
-			}
-		}
-	}
-	
-	private void exportSourceCode() {
-		try {
-			FileUtils.writeFile(getImportExportFilePath(), sourceCode.getEditableText().toString());
-
-			Toast message = Toast.makeText(EditMethodsActivity.this, String.format("Exported methods to %s", getImportExportFilePath()), Toast.LENGTH_SHORT);
-			message.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-			message.show();
-		} catch (Exception ex) {
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditMethodsActivity.this);
-			alertDialogBuilder.setTitle("Cannot Export File");
-			alertDialogBuilder.setMessage(String.format("Cannot export %s.", getImportExportFilePath()));
-			alertDialogBuilder.setPositiveButton("OK", null);
-
-			AlertDialog alertDialog = alertDialogBuilder.create();
-			alertDialog.show();
-		}
-	}
-
 	private void updateUI() {
 		Log.i(StringLiterals.LogTag, "EditMethodsActivity.updateUI begin");
 		
@@ -316,99 +216,29 @@ public class EditMethodsActivity extends Activity implements SourceCodeParseList
 		if (haveIssues) {
 			goToIssue(allIssues.get(0));
 		}
-		
+
 		Log.i(StringLiterals.LogTag, "EditMethodsActivity.updateUI end");
 	}
 
 	private void goToIssue(SyntaxIssue syntaxIssue) {
-		int linePosition = MiscUtils.getLinePosition(syntaxIssue.getLine() - 1, sourceCode.getEditableText().toString()) + syntaxIssue.getLineOffset() - 1;
-		sourceCode.setSelection(Math.min(linePosition, sourceCode.getEditableText().length()));
-	}
-	
-	private void updateBuiltInCode() {
-		String currentCode = sourceCode.getEditableText().toString();
-		
-		// Find beginning and end of built-in code.
-		Matcher beginBuiltInCodeMatcher = builtInCodeBegin.matcher(currentCode);
-		Matcher endBuiltInCodeMatcher = builtInCodeEnd.matcher(currentCode);
-		Matcher beginUserCodeMatcher = userCodeBegin.matcher(currentCode);
-		Matcher endUserCodeMatcher = userCodeEnd.matcher(currentCode);
-		
-		if (beginBuiltInCodeMatcher.find() && endBuiltInCodeMatcher.find() && beginBuiltInCodeMatcher.start() < endBuiltInCodeMatcher.start() &&
-			beginUserCodeMatcher.find() && endUserCodeMatcher.find() && beginUserCodeMatcher.start() < endUserCodeMatcher.start()) {
-			String before = currentCode.substring(0, beginBuiltInCodeMatcher.start()).trim();
-			String userCode = currentCode.substring(beginUserCodeMatcher.end() + 1, endUserCodeMatcher.start() - 1).trim();
+		Log.i(StringLiterals.LogTag,
+				String.format("EditMethodsActivity.goToIssue: lineSource: \"%s\" lineOffset: %d",
+						syntaxIssue.getLineSource(),
+						syntaxIssue.getLineOffset()));
 
-			String after = "";
-			
-			if (endUserCodeMatcher.end() < currentCode.length()) {
-				after = currentCode.substring(endUserCodeMatcher.end()).trim();
-			}
-			
-			if (before.length() > 0) {
-				before += "\n\n";
-			}
-			
-			if (after.length() > 0) {
-				after = "\n\n" + after;
-			}
-			
-			if (userCode.length() > 0) {
-				userCode += "\n\n";
-			}
-			
-			final String newSourceCode = String.format("%s%s%s", before, SourceCode.getInitialSourceCode(this, userCode), after);
-			
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditMethodsActivity.this);
-			alertDialogBuilder.setTitle("Update Built-In Code");
-			alertDialogBuilder.setMessage("Replace built-in code with the latest version?");
-			alertDialogBuilder.setPositiveButton(getString(R.string.ok_button_text), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					sourceCode.setText(newSourceCode);
+		final int start = MiscUtils.getLinePosition(syntaxIssue.getLine() - 1,
+				sourceCode.getEditableText().toString());
 
-					Toast message = Toast.makeText(EditMethodsActivity.this, "Updated built-in code", Toast.LENGTH_SHORT);
-					message.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-					message.show();
-				}
-			});
-			
-			alertDialogBuilder.setNegativeButton(getString(R.string.cancel_button_text), null);
+		final int stop = start + syntaxIssue.getLineSource().length();
 
-			AlertDialog alertDialog = alertDialogBuilder.create();
-			alertDialog.show();
-		}
-		else {
-			final String newSourceCode = String.format("%s\n\n%s", SourceCode.getInitialSourceCode(this), sourceCode.getEditableText());
-			
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditMethodsActivity.this);
-			alertDialogBuilder.setTitle("Update Built-In Code");
-			alertDialogBuilder.setMessage("Could not find existing built-in code. Insert built-in code at top?");
-			alertDialogBuilder.setPositiveButton(getString(R.string.ok_button_text), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					sourceCode.setText(newSourceCode);
+		sourceCode.requestFocus();
 
-					Toast message = Toast.makeText(EditMethodsActivity.this, "Updated built-in code", Toast.LENGTH_SHORT);
-					message.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-					message.show();
-				}
-			});
-			
-			alertDialogBuilder.setNegativeButton(getString(R.string.cancel_button_text), null);
-
-			AlertDialog alertDialog = alertDialogBuilder.create();
-			alertDialog.show();
-		}
-	}
-	
-	private String getImportExportFilePath() {
-		return String.format("%s/%s", Preferences.getImportExportFolder(), StringLiterals.SourceFileName);
+		sourceCode.setSelection(start, stop);
 	}
 	
 	private void enableDisableFields(boolean enabled) {
-		View views[] = new View[] { 
-				cancel, selectClass, selectMethod, sourceCode, fixIssues, classMethodSeparator, updown, saveButton, advanced };
+		View[] views = new View[] {
+				cancel, selectClass, selectMethod, sourceCode, fixIssues, classMethodSeparator, updown, saveButton };
 		
 		for (View view : views) {
 			if (view != null) {
@@ -441,11 +271,24 @@ public class EditMethodsActivity extends Activity implements SourceCodeParseList
 		
 		List<ClassMetadata> sortedClassMetadataList = new ArrayList<>(sortedClassMetadata.length);
 
-        for (ClassMetadata aSortedClassMetadata : sortedClassMetadata) {
+		final int userCodeLength = SourceCode.getUserCode().length();
+
+        for (final ClassMetadata aSortedClassMetadata : sortedClassMetadata) {
             ClassMetadata item = aSortedClassMetadata.shallowCopy();
 
-            item.setUseDisplayClassName(false);
-            sortedClassMetadataList.add(item);
+            boolean isBuiltin = false;
+
+            for (final MethodMetadata method : item.getMethodMetadata()) {
+            	if (method.getPosition() > userCodeLength) {
+            		isBuiltin = true;
+            		break;
+				}
+			}
+
+            if (!isBuiltin) {
+				item.setUseDisplayClassName(false);
+				sortedClassMetadataList.add(item);
+			}
         }
 
 		sortedClassMetadataList.add(0, new ClassMetadata(getString(R.string.spinner_select_prompt)));
@@ -499,9 +342,7 @@ public class EditMethodsActivity extends Activity implements SourceCodeParseList
 					MethodMetadata methodMetadata = adapter.getItem(position);
 					
 					if (methodMetadata.getPosition() > 0 && methodMetadata.getPosition() < sourceCode.getEditableText().toString().length()) {
-						sourceCode.setUpdateSpinners(false);
 						sourceCode.setSelection(methodMetadata.getPosition());
-						sourceCode.setUpdateSpinners(true);
 					}
 				}
 			}
@@ -528,7 +369,7 @@ public class EditMethodsActivity extends Activity implements SourceCodeParseList
 		enableDisableFields(false);
 
 		originalSourceCode = sourceCode.getEditableText().toString();
-		SourceCode.setSourceCode(sourceCode.getEditableText().toString(), EditMethodsActivity.this);
+		SourceCode.setUserCode(sourceCode.getEditableText().toString(), EditMethodsActivity.this);
 	}
 
 	private void promptToSaveChanges() {
@@ -536,22 +377,16 @@ public class EditMethodsActivity extends Activity implements SourceCodeParseList
 		alertDialogBuilder.setTitle("Save Changes");
 		alertDialogBuilder.setMessage("Source code has changed.");
 		
-		alertDialogBuilder.setPositiveButton("Save Changes", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				promptDialog.dismiss();
-				
-				saveChanges();
-			}
+		alertDialogBuilder.setPositiveButton("Save Changes", (dialog, which) -> {
+			promptDialog.dismiss();
+
+			saveChanges();
 		});
 		
-		alertDialogBuilder.setNegativeButton("Discard Changes", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				promptDialog.dismiss();
-				
-				EditMethodsActivity.this.finish();
-			}
+		alertDialogBuilder.setNegativeButton("Discard Changes", (dialog, which) -> {
+			promptDialog.dismiss();
+
+			EditMethodsActivity.this.finish();
 		});
 		
 		promptDialog = alertDialogBuilder.create();

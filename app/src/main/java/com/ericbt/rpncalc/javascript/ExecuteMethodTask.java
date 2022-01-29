@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -123,7 +123,7 @@ public class ExecuteMethodTask extends AsyncTask<ExecuteMethodTaskParameters, Vo
 				message = (result.getException()).getMessage();
 				int lineNumber = ((EvaluatorException) result.getException()).lineNumber();
 				int columnNumber = ((EvaluatorException) result.getException()).columnNumber();
-				sourcePosition = MiscUtils.getLinePosition(lineNumber, SourceCode.getSourceCode());
+				sourcePosition = MiscUtils.getLinePosition(lineNumber, SourceCode.getUserCode());
 				
 				if (columnNumber > 0) {
 					sourcePosition += columnNumber - 1;
@@ -134,7 +134,7 @@ public class ExecuteMethodTask extends AsyncTask<ExecuteMethodTaskParameters, Vo
 				message = (result.getException()).getMessage();
 				int lineNumber = ((EcmaError) result.getException()).lineNumber();
 				int columnNumber = ((EcmaError) result.getException()).columnNumber();
-				sourcePosition = MiscUtils.getLinePosition(lineNumber, SourceCode.getSourceCode());
+				sourcePosition = MiscUtils.getLinePosition(lineNumber, SourceCode.getUserCode());
 				
 				if (columnNumber > 0) {
 					sourcePosition += columnNumber - 1;
@@ -183,11 +183,11 @@ public class ExecuteMethodTask extends AsyncTask<ExecuteMethodTaskParameters, Vo
 		result.setMethodMetadata(executeMethodTaskParameters.getMethodMetadata());
 		
 		try {
-    		CustomContextFactory customContextFactory = new CustomContextFactory();
+    		final CustomContextFactory customContextFactory = new CustomContextFactory();
     		
-    		Context context = customContextFactory.enterContext();
-    		
-        	Scriptable scope = context.initStandardObjects();
+    		final Context context = customContextFactory.enterContext();
+
+        	final Scriptable scope = context.initStandardObjects();
         	
         	deserializeGlobalObjectIfNecessary();
         	
@@ -229,7 +229,7 @@ public class ExecuteMethodTask extends AsyncTask<ExecuteMethodTaskParameters, Vo
 	        									  arguments);
         	}
         	
-        	String fullSourceCode = String.format("%s%s", SourceCode.getSourceCode(), methodCall);
+        	String fullSourceCode = String.format("%s%s", SourceCode.getMergedCode(), methodCall);
         	
         	customContextFactory.start(Preferences.getMethodTimeout(), executeMethodTaskParameters.getExecuteMethodTask());
 
@@ -319,5 +319,4 @@ public class ExecuteMethodTask extends AsyncTask<ExecuteMethodTaskParameters, Vo
 		}
 		
 	}
-
 }

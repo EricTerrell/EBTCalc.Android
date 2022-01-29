@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -22,22 +22,27 @@ package com.ericbt.rpncalc.javascript;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
-import com.ericbt.rpncalc.MiscUtils;
+import com.ericbt.rpncalc.EditMethodsActivity;
 import com.ericbt.rpncalc.R;
 import com.ericbt.rpncalc.StringLiterals;
 import com.ericbt.rpncalc.javascript.SourceCodeParseListener.SourceCodeStatus;
 
 public class SourceCode {
+	public static final String USER_FILE_NAME = "custom.js";
+
+	private static String builtIn;
+
 	private static final List<SourceCodeParseListener> sourceCodeChangeListeners = new ArrayList<>();
 	
 	public static int getListenerCount() {
@@ -52,19 +57,24 @@ public class SourceCode {
 		sourceCodeChangeListeners.remove(listener);
 	}
 
-	private static String sourceCode;
+	private static String userCode;
 
-	public static String getSourceCode() 
+	public static String getUserCode()
 	{ 
-		return sourceCode; 
+		return userCode;
+	}
+
+	public static String getMergedCode() {
+		return String.format("%s\r\n\r\n%s", userCode, builtIn);
 	}
 	
-	public static void setSourceCode(String sourceCode, Context context) {
+	public static void setUserCode(String userCode, Context context) {
 		classMetadata = new ArrayList<>();
 		
-		SourceCode.sourceCode = sourceCode;
-		saveSourceCode(sourceCode, context);
-		
+		SourceCode.userCode = userCode;
+
+		saveUserCode(context);
+
 		new ParseSourceCodeTask().execute();
 	}
 	
@@ -89,8 +99,7 @@ public class SourceCode {
 	}
 	
 	private static List<SyntaxIssue> syntaxWarnings;
-	
-	
+
 	public static List<SyntaxIssue> getSyntaxWarnings() {
 		return syntaxWarnings;
 	}
@@ -125,27 +134,14 @@ public class SourceCode {
 		}
 	}
 	
-	public static List<MethodMetadata> getMethodMetadata(String className) {
-		List<MethodMetadata> methodMetadata = new ArrayList<>();
-		
-		for (ClassMetadata item : classMetadata) {
-			if (item.getClassName().equals(className)) {
-				methodMetadata.addAll(item.getMethodMetadata());
-			}
-		}
-		
-		return methodMetadata;
-	}
-	
-	private static void saveSourceCode(String sourceCode, Context context) {
+	private static void saveUserCode(Context context) {
 		FileOutputStream fileOutputStream = null;
-		
+
 		try {
-			fileOutputStream = context.openFileOutput(StringLiterals.SourceFileName, Context.MODE_PRIVATE);
-			fileOutputStream.write(sourceCode.getBytes());
-		}
-		catch (Exception ex) {
-			Log.e(StringLiterals.LogTag, "EditFunctionsActivity.saveSourceCode", ex);
+			fileOutputStream = context.openFileOutput(USER_FILE_NAME, Context.MODE_PRIVATE);
+			fileOutputStream.write(userCode.getBytes());
+		} catch (Exception ex) {
+			Log.e(StringLiterals.LogTag, "SourceCode.saveUserCode", ex);
 		}
 		finally {
 			if (fileOutputStream != null) {
@@ -153,7 +149,7 @@ public class SourceCode {
 					fileOutputStream.close();
 				}
 				catch (Exception ex) {
-					Log.e(StringLiterals.LogTag, "EditFunctionsActivity.saveSourceCode", ex);
+					Log.e(StringLiterals.LogTag, "SourceCode.saveUserCode", ex);
 				}
 			}
 		}
@@ -198,52 +194,53 @@ public class SourceCode {
 				}
 			}
 			catch (Exception ex) {
-				Log.e(StringLiterals.LogTag, "EditFunctionsActivity.readFromInputStream", ex);
+				Log.e(StringLiterals.LogTag, "SourceCode.readFromInputStream", ex);
 			}
 		}
 		
 		return text.toString();
 	}
-	
-	public static void loadSourceCode(Context context) {
-		String loadedSourceCode = "";
-		
-		try {
-			FileInputStream fileInputStream = context.openFileInput(StringLiterals.SourceFileName);
-			
-			loadedSourceCode = readFromInputStream(fileInputStream);
-		}
-		catch (FileNotFoundException ex) {
-			loadedSourceCode = getInitialSourceCode(context);
-			Log.i(StringLiterals.LogTag, "SourceCode.loadSourceCode: creating initial source code");
+
+	public static void loadUserCode(Context context) {
+		String userCode = "";
+
+		try (FileInputStream fileInputStream = context.openFileInput(USER_FILE_NAME)) {
+			userCode = readFromInputStream(fileInputStream);
 		}
 		catch (Exception ex) {
-			Log.e(StringLiterals.LogTag, "EditFunctionsActivity.loadSourceCode", ex);
+			Log.e(StringLiterals.LogTag, "SourceCode.loadUserCode", ex);
+		} finally {
+			if (getUserCode() == null && userCode.contains("BUILT_IN_CODE")) {
+				// User is running with source code from an older version of this app. User needs
+				// to remove built-in code.
+				warnUserToRemoveBuiltInCode(context);
+			}
+
+			setUserCode(userCode, context);
 		}
-		
-		SourceCode.setSourceCode(loadedSourceCode, context);
-	}
-		
-	public static String getInitialSourceCode(Context context, String userCode) {
-		String builtInsBegin = String.format("/* BUILT_IN_CODE_BEGIN (version %s) */", MiscUtils.getVersionName());
-		String builtInsEnd   = "/* BUILT_IN_CODE_END */";
-		String userCodeComment = "/* ***** PUT YOUR CODE HERE, BETWEEN THE USER_CODE_BEGIN AND USER_CODE_END markers ***** */";
-		String userCodeBegin = String.format("/* USER_CODE_BEGIN */\n\n%s\n\n", userCodeComment);
-		String userCodeEnd = "/* USER_CODE_END */";
-		
-		return String.format("%s\n\n%s\n\n%s\n\n%s%s%s", 
-							 builtInsBegin,
-							 getBuiltInSourceCode(context), 
-							 builtInsEnd,
-							 userCodeBegin,
-							 userCode.replace(userCodeComment, ""),
-							 userCodeEnd);
 	}
 
-	public static String getInitialSourceCode(Context context) {
-		return getInitialSourceCode(context, "");
+	private static void warnUserToRemoveBuiltInCode(Context context) {
+		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		alertDialogBuilder.setTitle(context.getString(R.string.warn_user_update_code_title));
+		alertDialogBuilder.setMessage(context.getString(R.string.warn_user_update_code_message));
+
+		alertDialogBuilder.setPositiveButton(context.getText(R.string.ok_button_text),
+				(dialog, which) -> {
+					context.startActivity(new Intent(context, EditMethodsActivity.class));
+				});
+
+		alertDialogBuilder.create().show();
 	}
-	
+
+	public static void loadBuiltInCode(Context context) {
+		try {
+			builtIn = readFromInputStream(context.getResources().openRawResource(R.raw.builtin));
+		} catch (Exception ex) {
+			Log.e(StringLiterals.LogTag, "EditFunctionsActivity.loadBuiltInCode", ex);
+		}
+	}
+
 	public static List<String> getMethodNames() {
 		List<String> methodNames = new ArrayList<>();
 
@@ -256,17 +253,5 @@ public class SourceCode {
 		}
 		
 		return methodNames;
-	}
-	
-	private static String getBuiltInSourceCode(Context context) {
-		String builtInSourceCode = null;
-		
-		try {
-			builtInSourceCode = readFromInputStream(context.getResources().openRawResource(R.raw.custom));
-	    } catch (Exception e) {
-	    	Log.e(StringLiterals.LogTag, "SourceCode.getBuiltInSourceCode: cannot read raw file");
-	    }
-		
-		return builtInSourceCode;
 	}
 }

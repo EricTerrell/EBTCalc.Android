@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -24,8 +24,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -42,32 +40,28 @@ public class EnterStringActivity extends Activity {
 		
 		setTitle(String.format(getString(R.string.enter_string_title), getString(R.string.app_name)));
 
-		stringValue = (EditText) findViewById(R.id.StringValue);
+		stringValue = findViewById(R.id.StringValue);
 
-		final Button okButton = (Button) findViewById(R.id.OK);
+		final Button okButton = findViewById(R.id.OK);
 		
-		okButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				String stringText = stringValue.getEditableText().toString();
-				
-				Intent returnData = new Intent();
-				returnData.putExtra(StringLiterals.StringText, stringText);
-				setResult(RESULT_OK, returnData);
-				
-				finish();
-			}
+		okButton.setOnClickListener(v -> {
+			final String stringText = stringValue.getEditableText().toString();
+
+			final Intent returnData = new Intent();
+			returnData.putExtra(StringLiterals.StringText, stringText);
+			setResult(RESULT_OK, returnData);
+
+			finish();
 		});
 		
 		AndroidUtils.clickButtonWhenEnterPressed(stringValue, okButton);
 
-		Button cancelButton = (Button) findViewById(R.id.Cancel);
+		Button cancelButton = findViewById(R.id.Cancel);
 		
-		cancelButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				setResult(RESULT_CANCELED);
-				
-				finish();
-			}
+		cancelButton.setOnClickListener(v -> {
+			setResult(RESULT_CANCELED);
+
+			finish();
 		});
 	}
 

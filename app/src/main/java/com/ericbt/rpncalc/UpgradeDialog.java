@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -22,7 +22,6 @@ package com.ericbt.rpncalc;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
@@ -41,28 +40,25 @@ public class UpgradeDialog {
 		alertDialogBuilder.setMessage("You are using the free version of EBTCalc.\r\n\r\nUpgrade to the paid version to:\r\n\r\n1) Support continued EBTCalc development.\r\n\r\n2) Stop displaying this dialog every time you edit Javascript.");
 		
 		alertDialogBuilder.setNegativeButton("Cancel", null);
-		alertDialogBuilder.setPositiveButton("Upgrade", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				alertDialog.dismiss();
+		alertDialogBuilder.setPositiveButton("Upgrade", (dialog, which) -> {
+			alertDialog.dismiss();
 
-				String appStore = context.getResources().getString(R.string.app_store);
-				
-				if (!appStore.equals("BN")) {
-					String paidVersionURL = context.getResources().getString(R.string.paid_version_url);
-					Log.i(StringLiterals.LogTag, String.format("UpgradeDialog.show: paidVersionURL: %s", paidVersionURL));
-					
-					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(paidVersionURL));
-					context.startActivity(intent);
-				}
-				else {
-					String ean = context.getResources().getString(R.string.bn_EAN);
+			String appStore = context.getResources().getString(R.string.app_store);
 
-				    Intent intent = new Intent();
-				    intent.setAction("com.bn.sdk.shop.details"); 
-				    intent.putExtra("product_details_ean", ean);
-				    context.startActivity(intent);
-				}
+			if (!appStore.equals("BN")) {
+				String paidVersionURL = context.getResources().getString(R.string.paid_version_url);
+				Log.i(StringLiterals.LogTag, String.format("UpgradeDialog.show: paidVersionURL: %s", paidVersionURL));
+
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(paidVersionURL));
+				context.startActivity(intent);
+			}
+			else {
+				String ean = context.getResources().getString(R.string.bn_EAN);
+
+				Intent intent = new Intent();
+				intent.setAction("com.bn.sdk.shop.details");
+				intent.putExtra("product_details_ean", ean);
+				context.startActivity(intent);
 			}
 		});
 

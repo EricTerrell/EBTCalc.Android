@@ -1,9 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ericbt.rpncalc"
-    android:versionCode="44"
-    android:versionName="1.44" >
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    android:versionCode="46"
+    android:versionName="1.46" >
 
     <application
         android:name="com.ericbt.rpncalc.RPNCalcApplication"
@@ -15,12 +13,19 @@
         <activity
             android:name="com.ericbt.rpncalc.MainActivity"
             android:label="@string/app_name"
-        >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
         </activity>
         <activity android:name="com.ericbt.rpncalc.EditMethodsActivity" />
         <activity android:name="com.ericbt.rpncalc.EnterStringActivity" />

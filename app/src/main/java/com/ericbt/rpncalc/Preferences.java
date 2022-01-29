@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -78,7 +78,7 @@ public class Preferences {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 
 		editor.putBoolean(USER_ACCEPTED_TERMS_KEY, userAcceptedTerms);
-		editor.commit();
+		editor.apply();
 	}
 	
 	public static String getTopLine() {
@@ -93,7 +93,7 @@ public class Preferences {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 
 		editor.putString(TOP_LINE_KEY, stackContents);
-		editor.commit();
+		editor.apply();
 	}
 
 	public static String getStackContents() {
@@ -108,7 +108,7 @@ public class Preferences {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 
 		editor.putString(STACK_CONTENTS_KEY, stackContents);
-		editor.commit();
+		editor.apply();
 	}
 
 	public static String getJavascriptGlobals() {
@@ -123,7 +123,7 @@ public class Preferences {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 
 		editor.putString(JAVASCRIPT_GLOBALS_KEY, javascriptGlobals);
-		editor.commit();
+		editor.apply();
 	}
 	
 	public static int getDigitsPastDecimalPoint() {
@@ -138,7 +138,7 @@ public class Preferences {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 
 		editor.putInt(DIGITS_PAST_DECIMAL_POINT_KEY, digitsPastDecimalPoint);
-		editor.commit();
+		editor.apply();
 	}
 	
 	public static String getImportExportFolder() {
@@ -153,7 +153,7 @@ public class Preferences {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 
 		editor.putString(IMPORT_EXPORT_FOLDER_KEY, importExportFolder);
-		editor.commit();
+		editor.apply();
 	}
 	
 	/**

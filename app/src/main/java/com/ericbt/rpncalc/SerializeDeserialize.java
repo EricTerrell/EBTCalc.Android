@@ -27,9 +27,11 @@ public class SerializeDeserialize {
 
 		String serializedText = null;
 		
-		CustomContextFactory customContextFactory = new CustomContextFactory();
-		Context context = customContextFactory.enterContext();
-    	Scriptable scope = context.initStandardObjects();
+		final CustomContextFactory customContextFactory = new CustomContextFactory();
+
+		final Context context = customContextFactory.enterContext();
+
+    	final Scriptable scope = context.initStandardObjects();
 
     	ByteArrayOutputStream byteArrayOutputStream = null;
     	ObjectOutputStream objectOutputStream = null;
@@ -90,9 +92,11 @@ public class SerializeDeserialize {
 		Object obj = null;
 
 		if (serializedText != null && serializedText.length() > 0) {
-			CustomContextFactory customContextFactory = new CustomContextFactory();
-			Context context = customContextFactory.enterContext();
-	    	Scriptable scope = context.initStandardObjects();
+			final CustomContextFactory customContextFactory = new CustomContextFactory();
+
+			final Context context = customContextFactory.enterContext();
+
+	    	final Scriptable scope = context.initStandardObjects();
 
 	    	try
 			{

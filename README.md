@@ -33,6 +33,15 @@ Note: This app uses the [`Mozilla Rhino Javascript engine`](https://developer.mo
 The "app/libs/js.jar" file is the Rhino [`1.7.7`](https://github.com/mozilla/rhino/releases/download/Rhino1_7_7_RELEASE/rhino1.7.7.zip) Javascript engine.
 You will probably not want to use a more recent version as later versions were not supported by Android.
 
+# Rhino
+
+This app uses the [`Rhino`](https://github.com/mozilla/rhino) Javascript engine. To update, copy the latest .jar to
+app\libs. Then update the dependency (File / Project Structure / Dependencies).
+
+# Javascript Compatibility
+
+See [`this page`](https://mozilla.github.io/rhino/compat/engines.html) to determine the level of ES2015 support.
+
 # License
 
 [`GPL3`](https://www.gnu.org/licenses/gpl-3.0.en.html)

@@ -29,13 +29,6 @@
             android:entryValues="@array/method_timeout_values"
         />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Import/Export Folder" >
-        <EditTextPreference 
-            android:title="Folder to import/export Javascript code" 
-            android:defaultValue='' 
-            android:key="import_export_folder"
-        />
-    </PreferenceCategory>
     <PreferenceCategory android:title="Logging" >
         <CheckBoxPreference
             android:defaultValue="false"

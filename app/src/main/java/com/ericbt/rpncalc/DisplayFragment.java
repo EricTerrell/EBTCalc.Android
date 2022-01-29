@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2015, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -26,7 +26,6 @@ import java.util.Stack;
 
 import org.mozilla.javascript.NativeArray;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.ClipData;
@@ -60,7 +59,7 @@ import com.ericbt.rpncalc.javascript.SourceCodeParseListener;
 import com.ericbt.rpncalc.validators.NObjects;
 
 public class DisplayFragment extends Fragment implements OnSharedPreferenceChangeListener, MethodExecutionListener, SourceCodeParseListener {
-	private Activity activity;
+	private Context context;
 	
 	private String selectedItemText;
 	
@@ -120,7 +119,7 @@ public class DisplayFragment extends Fragment implements OnSharedPreferenceChang
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.display, container, false);
 		
-		topLine = (TextView) view.findViewById(R.id.TopLine);
+		topLine = view.findViewById(R.id.TopLine);
 		
 		topLine.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -134,11 +133,11 @@ public class DisplayFragment extends Fragment implements OnSharedPreferenceChang
 			}
 		});
 		
-		stack = (ListView) view.findViewById(R.id.Stack);
+		stack = view.findViewById(R.id.Stack);
 		
 		registerForContextMenu(stack);
 		
-		LinearLayout topLineLayout = (LinearLayout) view.findViewById(R.id.TopLineLayout);
+		LinearLayout topLineLayout = view.findViewById(R.id.TopLineLayout);
 		
 		registerForContextMenu(topLineLayout);
 		
@@ -341,7 +340,7 @@ public class DisplayFragment extends Fragment implements OnSharedPreferenceChang
 	}
 	
 	public void updateStack() {
-		StackArrayAdapter stackArrayAdapter = new StackArrayAdapter(activity, R.layout.stack_item, R.id.Value);
+		StackArrayAdapter stackArrayAdapter = new StackArrayAdapter(context, R.layout.stack_item, R.id.Value);
 		stack.setAdapter(stackArrayAdapter);
 		
 		stackArrayAdapter.clear();
@@ -794,10 +793,10 @@ public class DisplayFragment extends Fragment implements OnSharedPreferenceChang
 	}
 	
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		
-		this.activity = activity;
+		this.context = context;
 	}
 
 }

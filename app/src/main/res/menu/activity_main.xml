@@ -3,7 +3,7 @@
         android:id="@+id/EditMenuItem"
         android:title="Edit"
         android:showAsAction="ifRoom|withText"
-        android:enabled="false"
+        android:enabled="true"
     >
     </item>
     <item
@@ -30,4 +30,10 @@
         android:showAsAction="ifRoom|withText"
     >
     </item>
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_share"
+        android:title="Share"
+        android:showAsAction="always"
+        />
 </menu>
