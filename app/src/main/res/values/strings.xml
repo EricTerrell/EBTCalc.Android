@@ -11,6 +11,8 @@
     <string name="paid_version_url"></string>
     <string name="bn_EAN"></string>
 
+    <string name="enter_value_hint">Enter Value</string>
+
     <string name="warn_user_update_code_title">Remove Built-In Code</string>
     <string name="warn_user_update_code_message">Starting with EBTCalc version 1.45, code for built-in buttons cannot be edited by the user.\n\nPlease remove all built-in code immediately.\n\nBuilt-in code generally appears between the BUILT_IN_CODE_BEGIN and BUILT_IN_CODE_END comments.</string>
 
@@ -45,34 +47,6 @@
 		
 	<string name="spinner_select_prompt">(select)</string>
 				
-    <string-array name="keyclick_volume_strings">
-        <item>0 (off)</item>
-        <item>1 (least loud)</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10 (loudest)</item>
-    </string-array>
-
-    <string-array name="keyclick_volume_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-    </string-array>
-    
     <string-array name="method_timeout_strings">
         <item>1 second</item>
         <item>2 seconds</item>
@@ -104,7 +78,7 @@
     <string name="min_width_for_two_column_display">1024</string>
 
     <string name="license_terms">EBTCalc
-(C) Copyright 2022
+(C) Copyright 2023
 Eric Bergman-Terrell
 \n\n
 This program and its source code are licensed under the GNU General Public

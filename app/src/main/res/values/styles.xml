@@ -38,4 +38,9 @@
     <style name="LeftProgrammableKeyboard">
         <item name="android:visibility">gone</item>
 	</style>
+
+    <style name="Activity" >
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
 </resources>

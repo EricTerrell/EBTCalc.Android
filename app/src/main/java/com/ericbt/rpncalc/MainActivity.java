@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2022, Eric Bergman-Terrell
+  (C) Copyright 2023, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -64,8 +64,6 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
     	
         super.onCreate(savedInstanceState);
         
-    	Globals.setMainActivity(this);
-
     	Preferences.setDefaultValues();
 
     	if (getString(R.string.main_activity_force_portrait).equals(StringLiterals.True)) {

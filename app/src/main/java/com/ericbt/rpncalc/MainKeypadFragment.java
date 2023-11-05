@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2022, Eric Bergman-Terrell
+  (C) Copyright 2023, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -97,7 +97,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		enter.setText(Html.fromHtml("E<br>n<br>t<br>e<br>r"));
 		
 		enter.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().enter();
 		});
 
@@ -106,7 +106,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button drop = view.findViewById(R.id.Drop);
 		
 		drop.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().drop();
 		});
 
@@ -116,14 +116,14 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		pi.setTag(new CanPush());
 		
 		pi.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().pi();
 		});
 
 		final Button swap = view.findViewById(R.id.Swap);
 		
 		swap.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().swap();
 		});
 
@@ -132,7 +132,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button clearEntry = view.findViewById(R.id.ClearEntry);
 		
 		clearEntry.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().clearEntry();
 		});
 		
@@ -141,7 +141,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button clearAll = view.findViewById(R.id.ClearAll);
 		
 		clearAll.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().clearAll();
 		});
 
@@ -150,7 +150,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button changeSign = view.findViewById(R.id.ChangeSign);
 		
 		changeSign.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().changeSign();
 		});
 		
@@ -159,7 +159,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button recip = view.findViewById(R.id.Recip);
 		
 		recip.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().reciprocal();
 		});
 
@@ -168,7 +168,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button sqrt = view.findViewById(R.id.Sqrt);
 		
 		sqrt.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().sqrt();
 		});
 
@@ -177,7 +177,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button square = view.findViewById(R.id.Square);
 		
 		square.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().square();
 		});
 
@@ -186,7 +186,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button backspace = view.findViewById(R.id.Backspace);
 		
 		backspace.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().backspace();
 		});
 
@@ -196,7 +196,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		programmableMethods.setTag(new ProgrammableMethods(mainActivity));
 		
 		programmableMethods.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.onRunProgrammableMethods();
 		});
 		
@@ -204,14 +204,14 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		enterString.setTag(new CanPush());
 		
 		enterString.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.onEnterString();
 		});
 		
 		final Button raise = view.findViewById(R.id.Raise);
 		
 		raise.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().raise();
 		});
 		
@@ -220,7 +220,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button sciNot = view.findViewById(R.id.SciNot);
 		
 		sciNot.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().scientificNotation();
 		});
 		
@@ -229,7 +229,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button percent = view.findViewById(R.id.Percent);
 		
 		percent.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().percent();
 		});
 		
@@ -238,7 +238,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button fixedPoint = view.findViewById(R.id.Fix);
 		
 		fixedPoint.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().fixedPoint();
 		});
 		
@@ -248,7 +248,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		floatingPoint.setTag(new CanPush());
 			
 		floatingPoint.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().floatingPoint();
 		});
 		
@@ -256,7 +256,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		factorial.setTag(new Factorial());
 		
 		factorial.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().factorial();
 		});
 		
@@ -272,7 +272,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 	}
 
 	private void setupDecimalPointButton(View view) {
-		Button decimalPointButton = (Button) view.findViewById(R.id.DecimalPoint);
+		final Button decimalPointButton = (Button) view.findViewById(R.id.DecimalPoint);
 		
 		decimalPointButton.setText(String.valueOf(Preferences.getDecimalPointCharacter()));
 	}
@@ -292,11 +292,11 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		int[] buttonIDs = new int[] { R.id.Digit0, R.id.Digit1, R.id.Digit2, R.id.Digit3, R.id.Digit4, R.id.Digit5, R.id.Digit6, R.id.Digit7, R.id.Digit8, R.id.Digit9, R.id.DecimalPoint };
 
         for (int buttonID : buttonIDs) {
-            Button button = (Button) view.findViewById(buttonID);
+            final Button button = (Button) view.findViewById(buttonID);
 
-            button.setOnClickListener(button1 -> {
-				SoundEffect.playKeyClick();
-				mainActivity.getDisplayFragment().digitDecimalOrBackspace(((Button) button1).getText().charAt(0));
+            button.setOnClickListener(v -> {
+				KeyFeedback.giveFeedback(v);
+				mainActivity.getDisplayFragment().digitDecimalOrBackspace(((Button) v).getText().charAt(0));
 			});
 
             if (buttonID != R.id.DecimalPoint) {
@@ -309,7 +309,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button add = (Button) view.findViewById(R.id.Add);
 		
 		add.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().add();
 		});
 
@@ -318,7 +318,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button subtract = (Button) view.findViewById(R.id.Subtract);
 		
 		subtract.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().subtract();
 		});
 
@@ -327,7 +327,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button multiply = (Button) view.findViewById(R.id.Multiply);
 		
 		multiply.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().multiply();
 		});
 
@@ -336,7 +336,7 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 		final Button divide = (Button) view.findViewById(R.id.Divide);
 		
 		divide.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().divide();
 		});
 		
@@ -344,27 +344,27 @@ public class MainKeypadFragment extends Fragment implements DisplayChangeListene
 	}
 
 	private void setupStackArrayButtons(View view) {
-		Button stackToArray = (Button) view.findViewById(R.id.StackToArray);
+		final Button stackToArray = (Button) view.findViewById(R.id.StackToArray);
 		stackToArray.setTag(new UnconditionallyValid());
 		
 		stackToArray.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().stackToArray();
 		});
 		
-		Button arrayToStack = (Button) view.findViewById(R.id.ArrayToStack);
+		final Button arrayToStack = (Button) view.findViewById(R.id.ArrayToStack);
 		arrayToStack.setTag(new TopItemIs1DArray());
 		
 		arrayToStack.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().arrayToStack();
 		});
 		
-		Button stackNToArray = (Button) view.findViewById(R.id.StackNToArray);
+		final Button stackNToArray = (Button) view.findViewById(R.id.StackNToArray);
 		stackNToArray.setTag(new StackNToArray());
 		
 		stackNToArray.setOnClickListener(v -> {
-			SoundEffect.playKeyClick();
+			KeyFeedback.giveFeedback(v);
 			mainActivity.getDisplayFragment().stackNToArray();
 		});
 	}

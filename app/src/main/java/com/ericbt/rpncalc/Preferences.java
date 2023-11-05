@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2022, Eric Bergman-Terrell
+  (C) Copyright 2023, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -42,28 +42,26 @@ public class Preferences {
 		}
 	}
 	
-	public static int getKeyclickVolume() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext());
+	public static boolean getHapticFeedback() {
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext());
 		
-		String value = sharedPreferences.getString("keyclick_volume", "0");
-		
-		return Integer.parseInt(value);
+		return sharedPreferences.getBoolean("haptic_feedback", true);
 	}
 	
 	public static boolean getThousandsSeparator() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext());
 		
 		return sharedPreferences.getBoolean("thousands_separator", true);
 	}
 	
 	public static boolean isUncaughtExceptionLoggingEnabled() { 
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext());
 		
 		return sharedPreferences.getBoolean("IsUncaughtExceptionLoggingEnabled", false);
 	}
 	
 	public static int getMethodTimeout() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext());
 		
 		return Integer.parseInt(sharedPreferences.getString("method_timeout", "15"));
 	}
@@ -73,84 +71,84 @@ public class Preferences {
 	}
 	
 	public static void putUserAcceptedTerms(boolean userAcceptedTerms) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
 		
-		SharedPreferences.Editor editor = sharedPreferences.edit();
+		final SharedPreferences.Editor editor = sharedPreferences.edit();
 
 		editor.putBoolean(USER_ACCEPTED_TERMS_KEY, userAcceptedTerms);
 		editor.apply();
 	}
 	
 	public static String getTopLine() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
 		
 		return sharedPreferences.getString(TOP_LINE_KEY, "");
 	}
 	
 	public static void putTopLine(String stackContents) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
 		
-		SharedPreferences.Editor editor = sharedPreferences.edit();
+		final SharedPreferences.Editor editor = sharedPreferences.edit();
 
 		editor.putString(TOP_LINE_KEY, stackContents);
 		editor.apply();
 	}
 
 	public static String getStackContents() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
 		
 		return sharedPreferences.getString(STACK_CONTENTS_KEY, null);
 	}
 	
 	public static void putStackContents(String stackContents) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
 		
-		SharedPreferences.Editor editor = sharedPreferences.edit();
+		final SharedPreferences.Editor editor = sharedPreferences.edit();
 
 		editor.putString(STACK_CONTENTS_KEY, stackContents);
 		editor.apply();
 	}
 
 	public static String getJavascriptGlobals() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
 		
 		return sharedPreferences.getString(JAVASCRIPT_GLOBALS_KEY, null);
 	}
 	
 	public static void putJavascriptGlobals(String javascriptGlobals) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
 		
-		SharedPreferences.Editor editor = sharedPreferences.edit();
+		final SharedPreferences.Editor editor = sharedPreferences.edit();
 
 		editor.putString(JAVASCRIPT_GLOBALS_KEY, javascriptGlobals);
 		editor.apply();
 	}
 	
 	public static int getDigitsPastDecimalPoint() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
 
 		return sharedPreferences.getInt(DIGITS_PAST_DECIMAL_POINT_KEY, -1);
 	}
 	
 	public static void putDigitsPastDecimalPoint(int digitsPastDecimalPoint) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
 		
-		SharedPreferences.Editor editor = sharedPreferences.edit();
+		final SharedPreferences.Editor editor = sharedPreferences.edit();
 
 		editor.putInt(DIGITS_PAST_DECIMAL_POINT_KEY, digitsPastDecimalPoint);
 		editor.apply();
 	}
 	
 	public static String getImportExportFolder() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
 		
 		return sharedPreferences.getString(IMPORT_EXPORT_FOLDER_KEY, null);
 	}
 	
 	private static void putImportExportFolder(String importExportFolder) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
 		
-		SharedPreferences.Editor editor = sharedPreferences.edit();
+		final SharedPreferences.Editor editor = sharedPreferences.edit();
 
 		editor.putString(IMPORT_EXPORT_FOLDER_KEY, importExportFolder);
 		editor.apply();
@@ -163,7 +161,7 @@ public class Preferences {
 	public static char getDecimalPointCharacter() {
 		char decimalPoint = '.';
 		
-		NumberFormat numberFormat = NumberFormat.getInstance();
+		final NumberFormat numberFormat = NumberFormat.getInstance();
 		
 		if (numberFormat instanceof DecimalFormat) {
 			DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
@@ -181,7 +179,7 @@ public class Preferences {
 	public static char getThousandsSeparatorCharacter() {
 		char decimalPoint = '.';
 		
-		NumberFormat numberFormat = NumberFormat.getInstance();
+		final NumberFormat numberFormat = NumberFormat.getInstance();
 		
 		if (numberFormat instanceof DecimalFormat) {
 			DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
@@ -193,9 +191,8 @@ public class Preferences {
 	}
 	
 	public static boolean getForce1ColumnValue() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Globals.getApplication().getApplicationContext().getApplicationContext());
 
 		return sharedPreferences.getBoolean(FORCE_1_COLUMN_IN_PORTRAIT, false);
 	}
-
 }

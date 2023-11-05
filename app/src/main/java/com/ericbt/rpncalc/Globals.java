@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2022, Eric Bergman-Terrell
+  (C) Copyright 2023, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -30,17 +30,7 @@ public class Globals {
 	public static void setApplication(RPNCalcApplication rpnCalcApplication) {
 		Globals.rpnCalcApplication = rpnCalcApplication;
 	}
-	
-	private static MainActivity mainActivity;
-	
-	public static MainActivity getMainActivity() {
-		return mainActivity;
-	}
-	
-	public static void setMainActivity(MainActivity mainActivity) {
-		Globals.mainActivity = mainActivity;
-	}
-	
+
 	private static int digitsPastDecimalPoint = -1;
 
 	public static int getDigitsPastDecimalPoint() {

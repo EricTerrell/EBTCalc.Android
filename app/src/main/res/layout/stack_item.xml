@@ -5,6 +5,7 @@
         android:longClickable="true"
         android:background="@android:drawable/list_selector_background"
         android:orientation="vertical"
+		style="@style/Activity"
         >
     <TextView
      	android:id="@+id/Value"

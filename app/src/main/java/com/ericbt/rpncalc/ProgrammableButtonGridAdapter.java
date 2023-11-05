@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2022, Eric Bergman-Terrell
+  (C) Copyright 2023, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -80,11 +80,11 @@ public class ProgrammableButtonGridAdapter extends BaseAdapter {
 		NObjects validator = new NObjects(methodMetadata.getArguments().size());
 		programmableButton.setEnabled(validator.isValid(displayFragment.getStackData(), displayFragment.getText()));
 		
-		programmableButton.setOnClickListener(customButton -> {
-			SoundEffect.playKeyClick();
+		programmableButton.setOnClickListener(v -> {
+			KeyFeedback.giveFeedback(v);
 			displayFragment.push();
 
-			new ExecuteMethodTask().execute(new ExecuteMethodTaskParameters((MethodMetadata) customButton.getTag(), displayFragment));
+			new ExecuteMethodTask().execute(new ExecuteMethodTaskParameters((MethodMetadata) v.getTag(), displayFragment));
 		});
 		
 		((Activity) context).registerForContextMenu(programmableButton);

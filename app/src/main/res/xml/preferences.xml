@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="Sound" >
-        <ListPreference 
-            android:title="Key Click Volume" 
-            android:defaultValue='0' 
-            android:key="keyclick_volume"
-            android:entries="@array/keyclick_volume_strings"
-            android:entryValues="@array/keyclick_volume_values"
-        />
+    <PreferenceCategory android:title="Haptic Feedback" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="haptic_feedback"
+            android:title="Provide Haptic Feedback" />
     </PreferenceCategory>
     <PreferenceCategory android:title="Display" >
         <CheckBoxPreference

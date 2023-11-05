@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2022, Eric Bergman-Terrell
+  (C) Copyright 2023, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.mozilla.javascript.NativeArray;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 
@@ -94,11 +95,15 @@ public class Prompt implements Serializable {
 		}
 		
 		Prompt.promptItems = promptItems;
-		
-		Globals.getMainActivity().runOnUiThread(() -> {
-			Intent promptActivity = new Intent(Globals.getMainActivity(), PromptActivity.class);
+
+		final Activity currentActivity = Globals.getApplication().getCurrentActivity();
+
+		currentActivity.runOnUiThread(() -> {
+			final Intent promptActivity =
+					new Intent(currentActivity, PromptActivity.class);
 			promptActivity.putExtra("Title", Prompt.this.title);
-			Globals.getMainActivity().startActivity(promptActivity);
+
+			currentActivity.startActivity(promptActivity);
 		});
 		
 		while (!resultsAreAvailable()) {

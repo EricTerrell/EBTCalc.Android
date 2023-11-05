@@ -5,6 +5,7 @@
     android:weightSum="1"
     android:id="@+id/EnclosingView"
     android:baselineAligned="false"
+	style="@style/Activity"
 >
 
     <LinearLayout

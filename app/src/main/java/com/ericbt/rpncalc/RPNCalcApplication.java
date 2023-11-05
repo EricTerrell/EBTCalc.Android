@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2022, Eric Bergman-Terrell
+  (C) Copyright 2023, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -20,12 +20,19 @@
 
 package com.ericbt.rpncalc;
 
+import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
 
 import com.ericbt.rpncalc.javascript.SourceCode;
 
 public class RPNCalcApplication extends Application {
+	private final CustomActivityLifecycleCallbacks customActivityLifecycleCallbacks =
+			new CustomActivityLifecycleCallbacks();
+
+	public Activity getCurrentActivity() {
+		return customActivityLifecycleCallbacks.getCurrentActivity();
+	}
 
 	@Override
 	public void onCreate() {
@@ -35,9 +42,10 @@ public class RPNCalcApplication extends Application {
 		
 		Log.i(StringLiterals.LogTag, "RPNCalcApplication.onCreate");
 		Log.i(StringLiterals.LogTag, String.format("SourceCode.getListenerCount: %d", SourceCode.getListenerCount()));
-		
+
+		registerActivityLifecycleCallbacks(customActivityLifecycleCallbacks);
+
 		Globals.setApplication(this);
 		Globals.setInitialLaunch(true);
 	}
-
 }

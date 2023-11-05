@@ -18,14 +18,15 @@
     along with EBTCalc.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.ericbt.rpncalc.validators;
+package com.ericbt.rpncalc;
 
-import java.util.Stack;
+import android.view.HapticFeedbackConstants;
+import android.view.View;
 
-import com.ericbt.rpncalc.ResultWrapper;
-
-public class HasText implements Validator {
-	public boolean isValid(Stack<ResultWrapper> stackData, CharSequence text) {
-		return text.length() > 0;
+public class KeyFeedback {
+	public static void giveFeedback(View view) {
+		if (Preferences.getHapticFeedback()) {
+			view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_PRESS);
+		}
 	}
 }
