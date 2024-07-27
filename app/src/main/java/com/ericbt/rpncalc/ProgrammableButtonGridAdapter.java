@@ -72,7 +72,7 @@ public class ProgrammableButtonGridAdapter extends BaseAdapter {
 		
 		MethodMetadata methodMetadata = (MethodMetadata) getItem(position);
 		
-		String argumentList = (methodMetadata.getArguments().size() > 0 && !methodMetadata.isButtonTextCustom()) ? String.format("(%s)", methodMetadata.getArgumentList()) : "";
+		String argumentList = (!methodMetadata.getArguments().isEmpty() && !methodMetadata.isButtonTextCustom()) ? String.format("(%s)", methodMetadata.getArgumentList()) : "";
 		
 		programmableButton.setText(String.format("%s%s", methodMetadata.getButtonText(), argumentList));
 		programmableButton.setTag(methodMetadata);

@@ -31,7 +31,7 @@ public class TopItemIs1DArray implements Validator {
 		boolean valid = false;
 		
 		if (text.length() == 0) {
-			if (stackData.size() >= 1 && stackData.peek().getResult() instanceof NativeArray) {
+			if (!stackData.isEmpty() && stackData.peek().getResult() instanceof NativeArray) {
 				NativeArray array = (NativeArray) stackData.peek().getResult();
 				
 				boolean nestedArrayFound = false;

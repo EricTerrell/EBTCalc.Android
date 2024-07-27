@@ -37,7 +37,7 @@ public class Preferences {
 	public static final String FORCE_1_COLUMN_IN_PORTRAIT = "force_1_column_in_portrait";
 
 	public static void setDefaultValues() {
-		if (getImportExportFolder() == null || getImportExportFolder().trim().length() == 0) {
+		if (getImportExportFolder() == null || getImportExportFolder().trim().isEmpty()) {
 			putImportExportFolder(Environment.getExternalStorageDirectory().getPath());
 		}
 	}

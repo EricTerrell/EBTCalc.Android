@@ -193,7 +193,7 @@ public class ProgrammableKeypadFragment extends Fragment implements SourceCodePa
 		CategoryClassMetadata selectedCategory = (CategoryClassMetadata) selectCategory.getSelectedItem();
 		
 		if (selectedCategory != null) {
-			if (selectedCategory.getClassMetadata().size() > 0) {
+			if (!selectedCategory.getClassMetadata().isEmpty()) {
 				List<MethodMetadata> methodMetadata = new ArrayList<>();
 				
 				for (ClassMetadata selectedClassMetadata : selectedCategory.getClassMetadata()) {

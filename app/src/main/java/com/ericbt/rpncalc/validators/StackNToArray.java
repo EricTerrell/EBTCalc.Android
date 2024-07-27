@@ -40,7 +40,7 @@ public class StackNToArray implements Validator {
 				// empty
 			}
 		}
-		else if (stackData.size() >= 1 && stackData.peek().getResult() instanceof Double) {
+		else if (!stackData.isEmpty() && stackData.peek().getResult() instanceof Double) {
 			if ((int) ((Double) stackData.peek().getResult()).doubleValue() == (Double) stackData.peek().getResult()) {
 				int n = (int) ((Double) stackData.peek().getResult()).doubleValue();
 				valid = stackData.size() >= n + 1;

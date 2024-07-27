@@ -161,8 +161,8 @@ public class ParseSourceCodeTask extends AsyncTask<Void, Void, ParseSourceCodeTa
 				}
 			}
 			
-			boolean hidden = !niladicConstructors.containsKey(classMetadata.getClassName()) || 
-					         classMetadata.getMethodMetadata().size() == 0;
+			boolean hidden = !niladicConstructors.containsKey(classMetadata.getClassName()) ||
+                    classMetadata.getMethodMetadata().isEmpty();
 			
 			classMetadata.setHidden(hidden);
 			

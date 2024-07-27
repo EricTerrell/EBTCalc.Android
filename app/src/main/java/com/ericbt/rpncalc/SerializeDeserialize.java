@@ -91,7 +91,7 @@ public class SerializeDeserialize {
 
 		Object obj = null;
 
-		if (serializedText != null && serializedText.length() > 0) {
+		if (serializedText != null && !serializedText.isEmpty()) {
 			final CustomContextFactory customContextFactory = new CustomContextFactory();
 
 			final Context context = customContextFactory.enterContext();

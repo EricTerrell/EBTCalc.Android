@@ -57,7 +57,7 @@ Main.LN = function(x) { return Math.log(x); };
 Main.e_To_x = function(x) { return Math.pow(Math.E, x); };
 
 Main.modulo = function(n, divisor) {
-  var remain = n % divisor;
+  const remain = n % divisor;
   return Math.floor(remain >= 0 ? remain : remain + divisor);
 };
 
@@ -114,17 +114,17 @@ Trig.Tan = function(degrees) { return degrees !== 90 ? Math.tan(Trig.radians(deg
 
 Trig.ATan = function(x) { return Trig.degrees(Math.atan(x)); };
 
-Trig.SinH = function(x) { return (Math.pow(Math.E, x) - Math.pow(Math.E, -x)) / 2; };
+Trig.SinH = function(x) { return Math.sinh(x); };
 
-Trig.ASinH = function(x) { return Math.log(x + Math.sqrt(Math.pow(x, 2) + 1)); };
+Trig.ASinH = function(x) { return Math.asinh(x); };
 
-Trig.CosH = function(x) { return (Math.pow(Math.E, x) + Math.pow(Math.E, -x)) / 2; };
+Trig.CosH = function(x) { return Math.cosh(x); };
 
-Trig.ACosH = function(x) { return Math.log(x + Math.sqrt(Math.pow(x, 2) - 1)); };
+Trig.ACosH = function(x) { return Math.acosh(x); };
 
-Trig.TanH = function(x) { return Trig.SinH(x) / Trig.CosH(x); };
+Trig.TanH = function(x) { return Math.tanh(x); };
 
-Trig.ATanH = function(x) { return Math.log((1 + x) / (1 - x)) / 2; };
+Trig.ATanH = function(x) { return Math.atanh(x); };
 
 function Statistics() {}
 
@@ -452,18 +452,16 @@ Log._clear = function() {
 };
 
 Log._addLine = function(text) { 
-  if (Globals.log === null) {
+  if (!Globals.log) {
     Globals.log = [];
   }
 
-  var log = Globals.log;
+  Globals.log.push(text);
 
-  log.push(text);
+  var maxLines = 1000;
 
-  var maxLines = 100;
-
-  while (log.length > maxLines) {
-    log.splice(0, 1);
+  while (Globals.log.length > maxLines) {
+    Globals.log.splice(0, 1);
   }
   
   GlobalsModified = true;
@@ -473,17 +471,17 @@ Log.Clear = function() { Log._clear(); };
 
 // button Log.getLog "Get Log"
 Log.getLog = function() {
-  var log = Globals.log;
-
-  if (log !== null) {
-    var result = "";
-
-    for (var i = 0, len = log.length; i < len; i++) {
-      result += log[i] + "\n";
-    }
-
-    return result;
+  if (!Globals.log) {
+    Globals.log = [];
   }
+
+  var result = "";
+
+  for (var i = 0, len = Globals.log.length; i < len; i++) {
+    result += Globals.log[i] + "\n";
+  }
+
+  return result;
 };
 
 function BaseNumber(base, number) {

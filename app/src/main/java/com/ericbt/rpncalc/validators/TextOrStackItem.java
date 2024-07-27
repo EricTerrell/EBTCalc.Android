@@ -26,6 +26,6 @@ import com.ericbt.rpncalc.ResultWrapper;
 
 public class TextOrStackItem implements Validator {
 	public boolean isValid(Stack<ResultWrapper> stackData, CharSequence text) {
-		return text.length() > 0 || stackData.size() > 0;
+		return text.length() > 0 || !stackData.isEmpty();
 	}
 }

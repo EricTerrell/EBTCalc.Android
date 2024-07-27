@@ -306,7 +306,7 @@ public class DisplayFragment extends Fragment implements OnSharedPreferenceChang
 	public void push() throws NumberFormatException {
 		String topLineText = topLine.getText().toString().replace(Preferences.getDecimalPointCharacter(), '.');
 		
-		if (topLineText.length() > 0) {
+		if (!topLineText.isEmpty()) {
 			try {
 				Double value = Double.parseDouble(topLineText);
 				topLine.setText("");
@@ -351,7 +351,7 @@ public class DisplayFragment extends Fragment implements OnSharedPreferenceChang
 			dataInProperOrder.add(stackData.elementAt(i));
 		}
 		
-		if (stackData.size() > 0) {
+		if (!stackData.isEmpty()) {
 			stack.setSelection(stackData.size() - 1);
 		}
 		
@@ -374,7 +374,7 @@ public class DisplayFragment extends Fragment implements OnSharedPreferenceChang
 			catch (NumberFormatException ex) {
 			}
 		}
-		else if (stackData.size() > 0) {
+		else if (!stackData.isEmpty()) {
 			stackData.push(stackData.peek());
 			updateStack();
 		}
@@ -749,7 +749,7 @@ public class DisplayFragment extends Fragment implements OnSharedPreferenceChang
 	public void backspace() {
 		String text = topLine.getText().toString();
 		
-		if (text.length() > 0) {
+		if (!text.isEmpty()) {
 			topLine.setText(text.substring(0, text.length() - 1));
 		}
 	}

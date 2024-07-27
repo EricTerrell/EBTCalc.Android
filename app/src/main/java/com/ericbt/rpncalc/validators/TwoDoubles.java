@@ -34,7 +34,7 @@ public class TwoDoubles implements Validator {
 		if (text.length() > 0) {
 			try {
 				Double.parseDouble(text.toString());
-				valid = stackData.size() >= 1 && stackData.peek().getResult() instanceof Double;
+				valid = !stackData.isEmpty() && stackData.peek().getResult() instanceof Double;
 			}
 			catch (NumberFormatException ex) {
 				// empty

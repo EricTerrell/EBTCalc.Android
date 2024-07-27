@@ -41,7 +41,7 @@ public class OneDouble implements Validator {
 			}
 		}
 		else {
-			valid = stackData.size() >= 1 && stackData.peek().getResult() instanceof Double;
+			valid = !stackData.isEmpty() && stackData.peek().getResult() instanceof Double;
 		}
 		
 		return valid;

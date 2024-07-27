@@ -43,7 +43,7 @@ public class CanFix implements Validator {
 			}
 		}
 		else {
-			if (stackData.size() >= 1 && stackData.peek().getResult() instanceof Double) {
+			if (!stackData.isEmpty() && stackData.peek().getResult() instanceof Double) {
 				double doubleValue = (Double) stackData.peek().getResult();
 				int value = (int) doubleValue;
 				

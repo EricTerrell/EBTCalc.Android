@@ -85,7 +85,7 @@ public class SourceCode {
 		List<ClassMetadata> results = new ArrayList<>();
 
 		for (ClassMetadata currentClassMetadata : classMetadata) {
-			if ((getHidden || !currentClassMetadata.isHidden()) && currentClassMetadata.getMethodMetadata().size() > 0) {
+			if ((getHidden || !currentClassMetadata.isHidden()) && !currentClassMetadata.getMethodMetadata().isEmpty()) {
 				results.add(currentClassMetadata);
 			}
 		}
@@ -245,7 +245,7 @@ public class SourceCode {
 		List<String> methodNames = new ArrayList<>();
 
 		for (ClassMetadata currentClassMetadata : classMetadata) {
-			if (currentClassMetadata.getMethodMetadata().size() > 0) {
+			if (!currentClassMetadata.getMethodMetadata().isEmpty()) {
 				for (MethodMetadata methodMetadata : currentClassMetadata.getMethodMetadata()) {
 					methodNames.add(String.format("%s.%s", methodMetadata.getClassName(), methodMetadata.getMethodName()));
 				}

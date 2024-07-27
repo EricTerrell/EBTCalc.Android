@@ -46,150 +46,147 @@ import com.ericbt.rpncalc.javascript.SourceCode;
 import com.ericbt.rpncalc.javascript.SourceCodeParseListener;
 
 public class MainActivity extends Activity implements MethodExecutionListener, SourceCodeParseListener {
-	private final static int ACCEPT_LICENSE_TERMS = 1001;
+    private final static int ACCEPT_LICENSE_TERMS = 1001;
 
-	private Menu optionsMenu;
-	private ProgrammableKeypadFragment programmableKeypadFragment;
-	private DisplayFragment displayFragment;
-	private LinearLayout enclosingView;
-	private boolean created;
+    private Menu optionsMenu;
+    private ProgrammableKeypadFragment programmableKeypadFragment;
+    private DisplayFragment displayFragment;
+    private LinearLayout enclosingView;
+    private boolean created;
 
-	private static final int ENTER_STRING = 1;
-	private static final int RUN_METHODS = 2;
-	private static final int SETTINGS = 3;
-	
+    private static final int ENTER_STRING = 1;
+    private static final int RUN_METHODS = 2;
+    private static final int SETTINGS = 3;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.i(StringLiterals.LogTag, "MainActivity.onCreate begin");
-    	
+
         super.onCreate(savedInstanceState);
-        
-    	Preferences.setDefaultValues();
 
-    	if (getString(R.string.main_activity_force_portrait).equals(StringLiterals.True)) {
-    		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);    		
-    	}
-    	
-		Globals.setDigitsPastDecimalPoint(Preferences.getDigitsPastDecimalPoint());
-		
-		if (getIntent().getBooleanExtra("EXIT", false)) {
-	         finish();
-	         
-	         ExitApplication.exit();
-	    }
-		else {
-	        setContentView(R.layout.main);
+        Preferences.setDefaultValues();
 
-	        enclosingView = findViewById(R.id.EnclosingView);
-	        
-			setTitle(String.format(getString(R.string.main_title), getString(R.string.app_name)));
+        if (getString(R.string.main_activity_force_portrait).equals(StringLiterals.True)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
 
-			// Hide the right programmable keypad view if there is insufficient width.
-	        if (!wideEnoughForTwoColumnDisplay()) {
-	        	LinearLayout programmableKeypadView = findViewById(R.id.ProgrammableKeypadRight);
-	        	
-	        	programmableKeypadView.setVisibility(View.GONE);
-	        	enclosingView.setWeightSum(0.5f);
-	        }
-	        else {
-	        	LinearLayout leftProgrammableKeypadView = findViewById(R.id.LeftProgrammableKeyboard);
-	        	leftProgrammableKeypadView.setVisibility(View.GONE);
-	        }
-	
-	        getDisplayFragment().restoreData();
-	        
-	        // Prompt user to accept license terms if they have not been previously accepted.
-	        if (!Preferences.getUserAcceptedTerms()) {
-				final Intent licenseTermsIntent = new Intent(this, LicenseTermsActivity.class);
-				licenseTermsIntent.putExtra(StringLiterals.AllowCancel, false);
+        Globals.setDigitsPastDecimalPoint(Preferences.getDigitsPastDecimalPoint());
 
-	        	startActivityForResult(licenseTermsIntent, ACCEPT_LICENSE_TERMS);
-	        } else {
-	        	loadSourceCode();
-			}
-		}
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
 
-		// import source code from another app
-		// Get intent, action and MIME type
-		final Intent intent = getIntent();
-		final String action = intent.getAction();
-		final String type = intent.getType();
+            ExitApplication.exit();
+        } else {
+            setContentView(R.layout.main);
 
-		if (Intent.ACTION_SEND.equals(action) && type != null) {
-			if ("text/plain".equals(type)) {
-				SourceCode.setUserCode(intent.getStringExtra(Intent.EXTRA_TEXT), this);
-			}
-		}
+            enclosingView = findViewById(R.id.EnclosingView);
 
-		created = true;
+            setTitle(String.format(getString(R.string.main_title), getString(R.string.app_name)));
 
-		Log.i(StringLiterals.LogTag, "MainActivity.onCreate end");
+            // Hide the right programmable keypad view if there is insufficient width.
+            if (!wideEnoughForTwoColumnDisplay()) {
+                LinearLayout programmableKeypadView = findViewById(R.id.ProgrammableKeypadRight);
+
+                programmableKeypadView.setVisibility(View.GONE);
+                enclosingView.setWeightSum(0.5f);
+            } else {
+                LinearLayout leftProgrammableKeypadView = findViewById(R.id.LeftProgrammableKeyboard);
+                leftProgrammableKeypadView.setVisibility(View.GONE);
+            }
+
+            getDisplayFragment().restoreData();
+
+            // Prompt user to accept license terms if they have not been previously accepted.
+            if (!Preferences.getUserAcceptedTerms()) {
+                final Intent licenseTermsIntent = new Intent(this, LicenseTermsActivity.class);
+                licenseTermsIntent.putExtra(StringLiterals.AllowCancel, false);
+
+                startActivityForResult(licenseTermsIntent, ACCEPT_LICENSE_TERMS);
+            } else {
+                loadSourceCode();
+            }
+        }
+
+        // import source code from another app
+        // Get intent, action and MIME type
+        final Intent intent = getIntent();
+        final String action = intent.getAction();
+        final String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                SourceCode.setUserCode(intent.getStringExtra(Intent.EXTRA_TEXT), this);
+            }
+        }
+
+        created = true;
+
+        Log.i(StringLiterals.LogTag, "MainActivity.onCreate end");
     }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		
-		Log.i(StringLiterals.LogTag, "MainActivity.onResume");
-		
-		if (created) {
-			created = false;
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-			MiscUtils.logViewDimensions(enclosingView, MainActivity.this.getClass().getName());
+        Log.i(StringLiterals.LogTag, "MainActivity.onResume");
 
-	        if (Globals.getInitialLaunch()) {
-	        	Globals.setInitialLaunch(false);
-	        }
-		}
-	}
+        if (created) {
+            created = false;
 
-	@Override
-	public void onAttachFragment(Fragment fragment) {
-    	Log.i(StringLiterals.LogTag, "MainActivity.onAttachFragment");
-    	
-    	if (fragment instanceof ProgrammableKeypadFragment) {
-    		programmableKeypadFragment = (ProgrammableKeypadFragment) fragment;
-    	}
-    	else if (fragment instanceof DisplayFragment) {
-    		displayFragment = (DisplayFragment) fragment;
-    	}
-    	
-    	if (programmableKeypadFragment != null && displayFragment != null) {
-    		programmableKeypadFragment.setDisplayFragment(displayFragment);
-    	}
+            MiscUtils.logViewDimensions(enclosingView, MainActivity.this.getClass().getName());
 
-		super.onAttachFragment(fragment);
-	}
+            if (Globals.getInitialLaunch()) {
+                Globals.setInitialLaunch(false);
+            }
+        }
+    }
 
-	private void loadSourceCode() {
-		// Can now load the source code since we have permission to read
-		Log.i(StringLiterals.LogTag, "Starting parse");
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        Log.i(StringLiterals.LogTag, "MainActivity.onAttachFragment");
 
-		SourceCode.loadBuiltInCode(MainActivity.this);
-		SourceCode.loadUserCode(MainActivity.this);
+        if (fragment instanceof ProgrammableKeypadFragment) {
+            programmableKeypadFragment = (ProgrammableKeypadFragment) fragment;
+        } else if (fragment instanceof DisplayFragment) {
+            displayFragment = (DisplayFragment) fragment;
+        }
 
-		SourceCode.setUserCode(SourceCode.getUserCode(), this);
-	}
+        if (programmableKeypadFragment != null && displayFragment != null) {
+            programmableKeypadFragment.setDisplayFragment(displayFragment);
+        }
 
-	@Override
-	protected void onStop() {
-		Log.i(StringLiterals.LogTag, "MainActivity.onStop");
+        super.onAttachFragment(fragment);
+    }
 
-		if (!PromptActivity.isActive() && !LicenseTermsActivity.isActive()) {
-			// Ensure that any pending source code parses or method executions do not happen after a rotation.
-			BackgroundTasks.cancel(false);
-			enableOptionsMenuItems(true);
-		}
+    private void loadSourceCode() {
+        // Can now load the source code since we have permission to read
+        Log.i(StringLiterals.LogTag, "Starting parse");
 
-		super.onStop();
-	}
+        SourceCode.loadBuiltInCode(MainActivity.this);
+        SourceCode.loadUserCode(MainActivity.this);
 
-	@Override
+        SourceCode.setUserCode(SourceCode.getUserCode(), this);
+    }
+
+    @Override
+    protected void onStop() {
+        Log.i(StringLiterals.LogTag, "MainActivity.onStop");
+
+        if (!PromptActivity.isActive() && !LicenseTermsActivity.isActive()) {
+            // Ensure that any pending source code parses or method executions do not happen after a rotation.
+            BackgroundTasks.cancel(false);
+            enableOptionsMenuItems(true);
+        }
+
+        super.onStop();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
-        
+
         optionsMenu = menu;
-        
+
         enableOptionsMenuItems(false);
 
         ExecuteMethodTask.listen(this);
@@ -197,157 +194,152 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 
         return true;
     }
-	
-	public DisplayFragment getDisplayFragment() {
-		return displayFragment;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		boolean result = false;
-		
-		if (item.getItemId() == R.id.SettingsMenuItem) {
-				startActivityForResult(new Intent(this, SettingsActivity.class), SETTINGS);
-				result = true;
-		}
-		else if (item.getItemId() == R.id.EditMenuItem) {
-				Intent intent = new Intent(MainActivity.this, EditMethodsActivity.class);
-				startActivity(intent);
-				result = true;
-		}
-		else if (item.getItemId() ==  R.id.AboutMenuItem) {
-				Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-				startActivity(intent);
-				result = true;
-		}
-		else if (item.getItemId() == R.id.HelpMenuItem) {
-			String url = getString(R.string.online_help_url);
-			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-			startActivity(intent);
-		}
-		else if (item.getItemId() == R.id.AboutEBTDesktopMenuItem) {
-			String url = getString(R.string.ebtcalc_desktop_url);
-			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-			startActivity(intent);
-		}
-		else if (item.getItemId() == R.id.share) {
-			shareCode();
 
-			result = true;
-		}
+    public DisplayFragment getDisplayFragment() {
+        return displayFragment;
+    }
 
-		return result;
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result = false;
 
-	private void shareCode() {
-		final Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        if (item.getItemId() == R.id.SettingsMenuItem) {
+            startActivityForResult(new Intent(this, SettingsActivity.class), SETTINGS);
+            result = true;
+        } else if (item.getItemId() == R.id.EditMenuItem) {
+            Intent intent = new Intent(MainActivity.this, EditMethodsActivity.class);
+            startActivity(intent);
+            result = true;
+        } else if (item.getItemId() == R.id.AboutMenuItem) {
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+            startActivity(intent);
+            result = true;
+        } else if (item.getItemId() == R.id.HelpMenuItem) {
+            String url = getString(R.string.online_help_url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.AboutEBTDesktopMenuItem) {
+            String url = getString(R.string.ebtcalc_desktop_url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.share) {
+            shareCode();
 
-		sharingIntent.setType("text/plain");
-		sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.code));
-		sharingIntent.putExtra(Intent.EXTRA_TEXT, SourceCode.getUserCode());
-		startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_via)));
-	}
+            result = true;
+        }
 
-	public void onEnterString() {
-		startActivityForResult(new Intent(MainActivity.this, EnterStringActivity.class), ENTER_STRING);
-	}
+        return result;
+    }
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
+    private void shareCode() {
+        final Intent sharingIntent = new Intent(Intent.ACTION_SEND);
 
-		switch (requestCode) {
-			case ACCEPT_LICENSE_TERMS: {
-				loadSourceCode();
-			}
-			break;
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.code));
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, SourceCode.getUserCode());
+        startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_via)));
+    }
 
-			case ENTER_STRING: {
-				if (resultCode == RESULT_OK) {
-					String stringText = data.getExtras().getString(StringLiterals.StringText);
-					displayFragment.pushValue(new ResultWrapper(stringText));
-				}
-			}
-			break;
+    public void onEnterString() {
+        startActivityForResult(new Intent(MainActivity.this, EnterStringActivity.class), ENTER_STRING);
+    }
 
-			case RUN_METHODS: {
-				if (resultCode == RESULT_OK) {
-					String stackDataString = data.getExtras().getString(StringLiterals.StackData);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-					Object obj = SerializeDeserialize.deserialize(stackDataString);
+        switch (requestCode) {
+            case ACCEPT_LICENSE_TERMS: {
+                loadSourceCode();
+            }
+            break;
 
-					if (obj instanceof Stack<?>) {
-						@SuppressWarnings("unchecked")
-						Stack<ResultWrapper> stackData = (Stack<ResultWrapper>) obj;
+            case ENTER_STRING: {
+                if (resultCode == RESULT_OK) {
+                    String stringText = data.getExtras().getString(StringLiterals.StringText);
+                    displayFragment.pushValue(new ResultWrapper(stringText));
+                }
+            }
+            break;
 
-						displayFragment.setStackData(stackData);
-						displayFragment.updateStack();
-					}
-				}
-			}
-			break;
+            case RUN_METHODS: {
+                if (resultCode == RESULT_OK) {
+                    String stackDataString = data.getExtras().getString(StringLiterals.StackData);
 
-			case SETTINGS: {
-				if (resultCode == SettingsActivity.CHANGED_COLUMN_MODE) {
-					this.recreate();
-				}
-			}
-			break;
-		}
-	}
+                    Object obj = SerializeDeserialize.deserialize(stackDataString);
 
-	public void onRunProgrammableMethods() {
-		getDisplayFragment().push();
-		
-		Intent intent = new Intent(MainActivity.this, RunMethodsActivity.class);
-		intent.putExtra(StringLiterals.StackData, SerializeDeserialize.serialize(displayFragment.getStackData()));
-		startActivityForResult(intent, RUN_METHODS);
-	}
-	
-	public boolean wideEnoughForTwoColumnDisplay() {
-		Point screenSize = new Point();
-		getWindowManager().getDefaultDisplay().getSize(screenSize);
+                    if (obj instanceof Stack<?>) {
+                        @SuppressWarnings("unchecked")
+                        Stack<ResultWrapper> stackData = (Stack<ResultWrapper>) obj;
 
-		int minWidthForTwoColumnDisplay = Integer.parseInt(getString(R.string.min_width_for_two_column_display));
-		
-		boolean wideEnough = (screenSize.x >= minWidthForTwoColumnDisplay);
-		
-		// Force one column mode if we're in portrait and the user wants one column mode.
-		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Preferences.getForce1ColumnValue()) {
-			wideEnough = false;
-		}
-		
-		return wideEnough;
-	}
+                        displayFragment.setStackData(stackData);
+                        displayFragment.updateStack();
+                    }
+                }
+            }
+            break;
 
-	private void enableOptionsMenuItems(boolean enabled) {
-		if (optionsMenu != null) {
-			for (int i = 0; i < optionsMenu.size(); i++) {
-				optionsMenu.getItem(i).setEnabled(enabled);
-			}
-		}
-	}
-	
-	@Override
-	public void methodExecutionStatus(ExecutionStatus executionStatus) {
-		enableOptionsMenuItems(executionStatus == ExecutionStatus.Completed);
-	}
+            case SETTINGS: {
+                if (resultCode == SettingsActivity.CHANGED_COLUMN_MODE) {
+                    this.recreate();
+                }
+            }
+            break;
+        }
+    }
 
-	@Override
-	public void sourceCodeChanged(SourceCodeStatus sourceCodeStatus) {
-		if (sourceCodeStatus == SourceCodeStatus.ParsingCompleted) {
-			enableOptionsMenuItems(true);
-		}
-	}
+    public void onRunProgrammableMethods() {
+        getDisplayFragment().push();
 
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+        Intent intent = new Intent(MainActivity.this, RunMethodsActivity.class);
+        intent.putExtra(StringLiterals.StackData, SerializeDeserialize.serialize(displayFragment.getStackData()));
+        startActivityForResult(intent, RUN_METHODS);
+    }
+
+    public boolean wideEnoughForTwoColumnDisplay() {
+        Point screenSize = new Point();
+        getWindowManager().getDefaultDisplay().getSize(screenSize);
+
+        int minWidthForTwoColumnDisplay = Integer.parseInt(getString(R.string.min_width_for_two_column_display));
+
+        boolean wideEnough = (screenSize.x >= minWidthForTwoColumnDisplay);
+
+        // Force one column mode if we're in portrait and the user wants one column mode.
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Preferences.getForce1ColumnValue()) {
+            wideEnough = false;
+        }
+
+        return wideEnough;
+    }
+
+    private void enableOptionsMenuItems(boolean enabled) {
+        if (optionsMenu != null) {
+            for (int i = 0; i < optionsMenu.size(); i++) {
+                optionsMenu.getItem(i).setEnabled(enabled);
+            }
+        }
+    }
+
+    @Override
+    public void methodExecutionStatus(ExecutionStatus executionStatus) {
+        enableOptionsMenuItems(executionStatus == ExecutionStatus.Completed);
+    }
+
+    @Override
+    public void sourceCodeChanged(SourceCodeStatus sourceCodeStatus) {
+        if (sourceCodeStatus == SourceCodeStatus.ParsingCompleted) {
+            enableOptionsMenuItems(true);
+        }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
         final Button button = (Button) view;
 
-		final Intent editMethods = new Intent(this, EditMethodsActivity.class);
-		editMethods.putExtra(StringLiterals.SourcePosition, ((MethodMetadata) button.getTag()).getPosition());
-		startActivity(editMethods);
+        final Intent editMethods = new Intent(this, EditMethodsActivity.class);
+        editMethods.putExtra(StringLiterals.SourcePosition, ((MethodMetadata) button.getTag()).getPosition());
+        startActivity(editMethods);
 
-		super.onCreateContextMenu(menu, view, menuInfo);
-	}
+        super.onCreateContextMenu(menu, view, menuInfo);
+    }
 }
