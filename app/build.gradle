@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
+    namespace "com.ericbt.rpncalc"
+
     compileSdk 34
 
     defaultConfig {

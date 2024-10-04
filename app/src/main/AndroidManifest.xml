@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ericbt.rpncalc"
-    android:versionCode="55"
-    android:versionName="1.55" >
+    android:versionCode="56"
+    android:versionName="1.56" >
 
     <application
         android:name="com.ericbt.rpncalc.RPNCalcApplication"

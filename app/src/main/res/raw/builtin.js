@@ -102,15 +102,15 @@ Trig.radians = function(degrees) { return degrees * Math.PI / 180; };
 // button Trig.degrees "Radians→Degrees"
 Trig.degrees = function(radians) { return radians * 180 / Math.PI; };
 
-Trig.Sin = function(degrees) { return Math.sin(Trig.radians(degrees)); };
+Trig.Sin = function(degrees) { return Math.sin(Trig.radians(Trig.normalizeAngle(degrees))); };
 
 Trig.ASin = function(x) { return Trig.degrees(Math.asin(x)); };
 
-Trig.Cos = function(degrees) { return Math.cos(Trig.radians(degrees)); };
+Trig.Cos = function(degrees) { return Math.cos(Trig.radians(Trig.normalizeAngle(degrees))); };
 
 Trig.ACos = function(x) { return Trig.degrees(Math.acos(x)); };
 
-Trig.Tan = function(degrees) { return degrees !== 90 ? Math.tan(Trig.radians(degrees)) : NaN; };
+Trig.Tan = function(degrees) { return degrees !== 90 ? Math.tan(Trig.radians(Trig.normalizeAngle(degrees))) : NaN; };
 
 Trig.ATan = function(x) { return Trig.degrees(Math.atan(x)); };
 
@@ -125,6 +125,20 @@ Trig.ACosH = function(x) { return Math.acosh(x); };
 Trig.TanH = function(x) { return Math.tanh(x); };
 
 Trig.ATanH = function(x) { return Math.atanh(x); };
+
+Trig.normalizeAngle = function(degrees) {
+    const circleDegrees = 360.0;
+
+    const multiple = Math.abs(degrees) / circleDegrees;
+
+    if (multiple > 1.0) {
+    const sign = Math.sign(degrees);
+
+    degrees = (Math.abs(degrees) - (circleDegrees * Math.floor(multiple))) * sign;
+    }
+
+    return degrees;
+}
 
 function Statistics() {}
 
