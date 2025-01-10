@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2023, Eric Bergman-Terrell
+  (C) Copyright 2025, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -187,7 +187,9 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 
         optionsMenu = menu;
 
-        enableOptionsMenuItems(false);
+        // Sometimes the Edit menu is inappropriately disabled when the app comes up. Maybe force
+        // it to be enabled, and don't worry about the source code parsing process.
+        enableOptionsMenuItems(true);
 
         ExecuteMethodTask.listen(this);
         SourceCode.listen(this);
@@ -327,9 +329,7 @@ public class MainActivity extends Activity implements MethodExecutionListener, S
 
     @Override
     public void sourceCodeChanged(SourceCodeStatus sourceCodeStatus) {
-        if (sourceCodeStatus == SourceCodeStatus.ParsingCompleted) {
-            enableOptionsMenuItems(true);
-        }
+        Log.i(StringLiterals.LogTag, String.format("sourceCodeChanged sourceCodeStatus: %s", sourceCodeStatus));
     }
 
     @Override

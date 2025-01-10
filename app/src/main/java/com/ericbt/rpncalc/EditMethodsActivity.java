@@ -1,6 +1,6 @@
 /*
   EBTCalc
-  (C) Copyright 2023, Eric Bergman-Terrell
+  (C) Copyright 2025, Eric Bergman-Terrell
   
   This file is part of EBTCalc.
 
@@ -205,7 +205,6 @@ public class EditMethodsActivity extends Activity implements SourceCodeParseList
         initMethodSpinner(methodMetadata);
         initClassSpinner(SourceCode.filterClassMetadata(true));
         initIssuesUI(allIssues);
-
 
         fixIssues.setVisibility(haveIssues ? View.VISIBLE : View.GONE);
         selectClass.setVisibility(haveIssues ? View.GONE : View.VISIBLE);
