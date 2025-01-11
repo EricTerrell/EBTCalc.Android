@@ -23,7 +23,7 @@ package com.ericbt.rpncalc;
 public class StringLiterals {
 	public static final String LogTag                     = "EBTCalc";
 	public static final String LogFileName                = "ebtcalc_log.txt";
-	public static final String NewLine                    = System.getProperty("line.separator");
+	public static final String NewLine                    = System.lineSeparator();
 	public static final String PrivatePrefix              = "_";
 	public static final String SourcePosition             = "sourcePosition";
 	public static final String Text                       = "text";
